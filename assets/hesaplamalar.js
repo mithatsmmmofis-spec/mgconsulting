@@ -50,6 +50,8 @@
    c3f:["Transport allowance, monthly","Yol yardımı, aylık"],
    c3g:["Other regular benefits, monthly (fuel, clothing, housing)","Diğer düzenli yardımlar, aylık (yakacak, giyim, konut)"],
    rBase:["Gross wage","Brüt ücret"],
+   rCap:["Exceeds the ceiling; ceiling applied","Tavanı aşıyor; tavan uygulandı"],
+   rNoCap:["Severance ceiling not set for this period; computed without a cap","Bu dönem için kıdem tavanı tanımlı değil; tavansız hesaplandı"],
    rAdds:["Benefits added","Eklenen yan haklar"],
    rGiy:["Severance base, monthly","Kıdeme esas aylık ücret (giydirilmiş)"],
    c3n:["Severance is subject to stamp duty only. Notice pay is subject to income tax and stamp duty; the income tax shown uses the top band entered and should be checked against the cumulative base.","Kıdem tazminatından yalnızca damga vergisi kesilir. İhbar tazminatı gelir vergisi ve damga vergisine tabidir; gösterilen gelir vergisi girilen en üst dilimi kullanır ve kümülatif matraha göre kontrol edilmelidir."],
@@ -277,7 +279,8 @@
     var days=Math.round((d2-d1)/86400000);
     if(!(days>0)){el("k_res").innerHTML="";return;}
     var tav=P("pKidTavan"), dmgR=P("pDmg")/1000;
-    var basePer=tav>0?Math.min(w,tav):w;
+    var capped=tav>0&&w>tav;
+    var basePer=capped?tav:w;
     var kid=basePer*days/365;
     var kidNet=kid-kid*dmgR;
     var wk=noticeWeeks(days);
@@ -288,6 +291,8 @@
       {k:L("rBase"),v:f2(base)},
       adds>0?{k:L("rAdds"),v:"+"+f2(adds)}:null,
       {k:L("rGiy"),v:f2(w)},
+      capped?{k:L("rCap"),v:f2(tav),neg:1}:null,
+      tav<=0?{k:L("rNoCap"),v:"—"}:null,
       {k:L("rSen"),v:Math.floor(days/365)+" "+L("yrs")+" "+Math.floor((days%365)/30)+" "+L("mos")+" "+days%365%30+" "+L("dys")},
       {k:L("rKid"),v:f2(kid)},
       {k:L("rKidN"),v:f2(kidNet),tot:1},
