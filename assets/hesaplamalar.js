@@ -40,10 +40,18 @@
    c2b:["Cumulative tax base, prior months","Önceki ayların kümülatif vergi matrahı"],
    c2n:["Solved numerically against the same payroll rules, to the nearest kurus.","Aynı bordro kurallarıyla sayısal olarak, kuruş hassasiyetinde çözülür."],
    c3h:["Severance and notice pay","Kıdem ve ihbar tazminatı"],
-   c3s:["Notice periods are those set in the Labour Law; the severance ceiling comes from the panel.","İhbar süreleri İş Kanunu'nda yazılı olanlardır; kıdem tavanı panelden alınır."],
+   c3s:["Enter the gross wage and any regular benefits; the severance base is built for you. Notice periods are those set in the Labour Law.","Brüt ücreti ve varsa düzenli yan hakları yazın; kıdeme esas ücret sizin için oluşturulur. İhbar süreleri İş Kanunu'nda yazılı olanlardır."],
    c3a:["Date of hire","İşe giriş tarihi"],
    c3b:["Date of leaving","Çıkış tarihi"],
-   c3c:["Gross monthly wage including benefits","Giydirilmiş brüt aylık ücret"],
+   c3c:["Gross monthly wage","Brüt aylık ücret"],
+   c3add:["Regular, recurring benefits are added to the severance base. Enter monthly amounts; leave blank if none. One-off items such as overtime or performance bonuses are not added.","Düzenli ve sürekli ödenen yan haklar kıdem tazminatına esas ücrete eklenir. Aylık tutarları yazın; yoksa boş bırakın. Fazla mesai, performans primi gibi arızi ödemeler eklenmez."],
+   c3d:["Annual bonus total (one twelfth is added)","Yıllık ikramiye toplamı (on ikide biri eklenir)"],
+   c3e:["Meal allowance, monthly","Yemek yardımı, aylık"],
+   c3f:["Transport allowance, monthly","Yol yardımı, aylık"],
+   c3g:["Other regular benefits, monthly (fuel, clothing, housing)","Diğer düzenli yardımlar, aylık (yakacak, giyim, konut)"],
+   rBase:["Gross wage","Brüt ücret"],
+   rAdds:["Benefits added","Eklenen yan haklar"],
+   rGiy:["Severance base, monthly","Kıdeme esas aylık ücret (giydirilmiş)"],
    c3n:["Severance is subject to stamp duty only. Notice pay is subject to income tax and stamp duty; the income tax shown uses the top band entered and should be checked against the cumulative base.","Kıdem tazminatından yalnızca damga vergisi kesilir. İhbar tazminatı gelir vergisi ve damga vergisine tabidir; gösterilen gelir vergisi girilen en üst dilimi kullanır ve kümülatif matraha göre kontrol edilmelidir."],
    c4h:["Default surcharge","Gecikme zammı"],
    c4s:["Months are charged in full and part months by day, as the collection law provides.","Aylar tam, ay kesirleri günlük hesaplanır; tahsil kanununun öngördüğü şekilde."],
@@ -261,8 +269,10 @@
     return 8;
   }
   function calcKidem(){
-    var a=el("k_start").value, b=el("k_end").value, w=num(el("k_wage").value);
-    if(!a||!b||w<=0){el("k_res").innerHTML="";return;}
+    var a=el("k_start").value, b=el("k_end").value, base=num(el("k_wage").value);
+    if(!a||!b||base<=0){el("k_res").innerHTML="";return;}
+    var adds=num(el("k_bonus").value)/12+num(el("k_meal").value)+num(el("k_transport").value)+num(el("k_other").value);
+    var w=base+adds;
     var d1=new Date(a), d2=new Date(b);
     var days=Math.round((d2-d1)/86400000);
     if(!(days>0)){el("k_res").innerHTML="";return;}
@@ -275,6 +285,9 @@
     var topRate=num(BR[BR.length-1].r)/100;
     var ihbNet=ihb-ihb*topRate-ihb*dmgR;
     rows("k_res",[
+      {k:L("rBase"),v:f2(base)},
+      adds>0?{k:L("rAdds"),v:"+"+f2(adds)}:null,
+      {k:L("rGiy"),v:f2(w)},
       {k:L("rSen"),v:Math.floor(days/365)+" "+L("yrs")+" "+Math.floor((days%365)/30)+" "+L("mos")+" "+days%365%30+" "+L("dys")},
       {k:L("rKid"),v:f2(kid)},
       {k:L("rKidN"),v:f2(kidNet),tot:1},
@@ -377,7 +390,7 @@
 
   function runAll(){calcG2N();calcN2G();calcKidem();calcGec();calcDl();calcAmo();calcWc();calcCar();}
 
-  ["s_gross","s_cum","n_net","n_cum","k_start","k_end","k_wage","g_due","g_pay","g_amt",
+  ["s_gross","s_cum","n_net","n_cum","k_start","k_end","k_wage","k_bonus","k_meal","k_transport","k_other","g_due","g_pay","g_amt",
    "d_start","d_kind","d_hol","a_cost","a_life","a_method","a_months",
    "w_sales","w_cogs","w_ar","w_inv","w_ap","b_net","b_vat"].concat(PIDS).forEach(function(id){
     var e=el(id);if(e)e.addEventListener("input",runAll);
@@ -410,7 +423,7 @@
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
      "pp1","pp2","pp3","pp4","pp5","pp6","pp7","pp8","pp9",
      "c1h","c1s","c1a","c1b","c1n","c2h","c2s","c2a","c2b","c2n",
-     "c3h","c3s","c3a","c3b","c3c","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
+     "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
      "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8n","parNote"].forEach(function(id){
       var e=el(id);if(e)e.textContent=L(id);
