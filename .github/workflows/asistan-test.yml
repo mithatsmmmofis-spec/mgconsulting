@@ -1,5 +1,5 @@
 name: MG Asistan canli test
-# tetik 7
+# tetik 8
 on:
   workflow_dispatch:
   push:
@@ -15,7 +15,7 @@ jobs:
         run: |
           code=$(curl -sS -o out.txt -w "%{http_code}" -X POST https://mgconsulting.mithat-smmm-ofis.workers.dev/chat \
             -H "Origin: https://www.mgconsultingtr.com" -H "Content-Type: application/json" \
-            --data '{"lang":"tr","messages":[{"role":"user","content":"2026 yılında kaç geçici vergi beyannamesi verilecek"}]}')
+            --data '{"lang":"tr","messages":[{"role":"user","content":"2026 yılında kaç geçici vergi beyannamesi verilecek"},{"role":"assistant","content":"2026 yılında dört dönem geçici vergi beyannamesi verilecek."},{"role":"user","content":"Ekim-Aralık döneminin son günü ne zaman? Kaynak göster."}]}')
           echo "HTTP $code"; head -c 400 out.txt; echo
           echo "code=$code" >> "$GITHUB_OUTPUT"
           echo "err=$(grep -o '"error":"[a-z_]*"' out.txt | head -1)" >> "$GITHUB_OUTPUT"
