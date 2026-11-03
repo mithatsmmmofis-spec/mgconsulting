@@ -304,3 +304,27 @@ footer .wrap{padding-block:54px 44px}
 :root[data-theme="dark"] .open .kicker{color:var(--bronze)}
 :root[data-theme="dark"] .open .btn.line{background:transparent;border-color:rgba(255,255,255,.3)}
 :root[data-theme="dark"] .openart svg{color:var(--ink)}
+
+/* --- CFO bolumu: Istanbul manzarasi --- */
+.cfo{padding:0!important;border-bottom:1px solid var(--rule)}
+.cfohero{position:relative;background:#0A1F33;color:#F8F6F2;overflow:hidden}
+.cfohero svg.sky{display:block;width:100%;height:auto;max-width:100%}
+.cfohero .txt{position:absolute;inset:0;display:flex;align-items:flex-end}
+.cfohero .txt .wrap{padding-block:0 clamp(26px,5vw,64px);width:100%}
+.cfohero .kicker{color:#E2C27A}
+.cfohero h2{font-size:clamp(26px,4.4vw,50px);line-height:1.05;margin-top:12px;max-width:18ch;font-weight:700;color:#F8F6F2;text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.cfohero p{margin:14px 0 0;max-width:58ch;font-size:clamp(14px,1.5vw,18px);color:rgba(248,246,242,.9);text-shadow:0 1px 14px rgba(0,0,0,.5)}
+.cfobody{padding-block:52px}
+.cfo .lead{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:start}
+.cfo .lead h3{font-size:clamp(22px,2.6vw,30px);line-height:1.15;font-weight:600;margin-top:12px}
+.cfo .lead p{margin:0;color:var(--ink-2);font-size:16.5px}
+.cfo .lead p+p{margin-top:12px}
+.cfocards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:30px}
+@media (max-width:900px){.cfocards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cfocards{grid-template-columns:1fr}}
+.cfocards>div{background:var(--surface);border:1px solid var(--rule);padding:22px 22px 24px;min-width:0}
+.cfocards h4{font-family:var(--font-display);font-size:16px;font-weight:600;margin:0}
+.cfocards p{margin:8px 0 0;font-size:14.5px;color:var(--ink-2)}
+.cfocards .n{font-family:var(--font-display);font-size:11px;letter-spacing:.14em;color:var(--bronze);font-weight:700;margin-bottom:10px;display:block;text-transform:uppercase}
+@media (max-width:860px){.cfo .lead{grid-template-columns:1fr}}
+@media (max-width:640px){.cfohero .txt{position:static;background:#0A1F33}.cfohero .txt .wrap{padding-block:22px 28px}.cfohero h2,.cfohero p{text-shadow:none}.cfobody{padding-block:40px}}
