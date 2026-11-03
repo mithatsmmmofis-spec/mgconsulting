@@ -17,7 +17,7 @@
   var UI={
    kick:["Guide","Rehber"],
    h1:["MG Assistant","MG Asistan"],
-   intro:["An AI guide for accounting, tax, payroll, tax returns, e-ledger, TFRS and reporting questions. If a question is incomplete it asks for the missing detail first; then it answers with a short reply, an example, the accounting entry and the legal basis.","Muhasebe, vergi, bordro, beyanname, e-defter, TFRS ve raporlama sorularınızda yol gösteren yapay zekâ rehberi. Soru eksikse önce eksik bilgiyi sorar; sonra kısa cevap, örnek, muhasebe kaydı ve dayanak maddesiyle açıklar."],
+   intro:["An AI colleague for accounting, tax, payroll, returns, e-ledger, company law, TFRS and reporting. It answers directly, calculates, writes the journal entry, drafts letters and cites the legal basis.","Muhasebe, vergi, bordro, beyanname, e-defter, şirketler hukuku, TFRS ve raporlama için yapay zekâ meslektaş. Doğrudan cevaplar, hesaplar, yevmiye kaydını yazar, dilekçe ve yazı taslağı hazırlar, dayanağı gösterir."],
    utilLabel:["MG Assistant","MG Asistan"],
    chatTitle:["MG Assistant","MG Asistan"],
    themeBtn:["Theme","Tema"],
@@ -26,8 +26,8 @@
    reset:["New conversation","Yeni sohbet"],
    hint:["Ctrl+Enter also sends","Ctrl+Enter ile de gönderebilirsiniz"],
    s1h:["How it works","Nasıl çalışır"],
-   s1a:["If the question is unclear it asks one clarifying question first.","Soru belirsizse önce tek bir netleştirme sorusu sorar."],
-   s1b:["Answer order: short reply, numerical example, accounting entry, points to watch, legal basis.","Cevap sırası: kısa cevap, sayısal örnek, muhasebe kaydı, dikkat noktaları, dayanak madde."],
+   s1a:["Answers directly; asks for a missing detail only when the answer truly depends on it.","Doğrudan cevaplar; eksik bilgiyi yalnızca cevap ona bağlıysa sorar."],
+   s1b:["Calculates amounts, writes the journal entry with account codes, names the return line, gives the legal basis.","Tutarı hesaplar, hesap kodlu yevmiye kaydını yazar, beyanname satırını söyler, dayanak maddeyi verir."],
    s1d:["On contested matters it gives the tax authority's view and the opposing view separately.","Tartışmalı konularda idarenin görüşünü ve karşı görüşü ayrı verir."],
    s2h:["Limits","Sınırlar"],
    s2a:["General information only; not a professional opinion on a specific matter.","Genel bilgilendirmedir; somut olaya ilişkin mesleki görüş değildir."],
@@ -91,7 +91,7 @@
     try{
       var r=await fetch(ENDPOINT.replace(/\/$/,"")+"/chat",{
         method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({lang:lang,messages:msgs.slice(-16)})
+        body:JSON.stringify({lang:lang,messages:msgs.slice(-24)})
       });
       if(!r.ok){
         var code="",st="",det="";try{var j=await r.json();code=j.error||"";st=j.status||"";det=j.detail||"";}catch(e){}
