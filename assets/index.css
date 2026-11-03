@@ -284,3 +284,23 @@ footer .wrap{padding-block:54px 44px}
 
 /* gizli ogeler */
 [hidden]{display:none!important}
+
+/* --- manzara giris: beyaz gokyuzu, deniz mavisi, yesil tepeler --- */
+.open{
+  background-color:#F6FBFD;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 600' preserveAspectRatio='xMidYMax slice'><defs><linearGradient id='sky' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23FFFFFF'/><stop offset='1' stop-color='%23CFE9F6'/></linearGradient><linearGradient id='sea' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23A4D8EC'/><stop offset='1' stop-color='%236FB9D8'/></linearGradient><radialGradient id='sun' cx='0.8' cy='0.16' r='0.3'><stop offset='0' stop-color='%23FFFFFF' stop-opacity='1'/><stop offset='1' stop-color='%23FFFFFF' stop-opacity='0'/></radialGradient></defs><rect width='1440' height='600' fill='url(%23sky)'/><rect width='1440' height='600' fill='url(%23sun)'/><path d='M0 376 C240 356 420 396 720 376 S1200 356 1440 376 L1440 600 L0 600Z' fill='url(%23sea)'/><path d='M0 458 C200 418 380 434 560 454 S900 424 1120 452 S1340 432 1440 446 L1440 600 L0 600Z' fill='%23B4E0BF'/><path d='M0 516 C180 486 360 506 540 520 S860 490 1080 516 S1320 500 1440 512 L1440 600 L0 600Z' fill='%2381C896'/></svg>");
+  background-size:cover;background-position:center bottom;background-repeat:no-repeat;
+  color:#0A1F33;border-bottom:1px solid var(--rule);position:relative;overflow:hidden}
+.open::before,.open::after{display:none}
+.open .kicker{color:#8A6A1F}
+.open h1{color:#0A1F33}
+.open .lede{color:#2E4458}
+.open .btn.line{color:#0A1F33;border-color:rgba(10,31,51,.32);background:rgba(255,255,255,.62)}
+.open .btn.line:hover{background:#fff}
+.openart svg{color:#0A1F33}
+:root[data-theme="dark"] .open{background-image:none;background:linear-gradient(180deg,#0D1B27,#0B2332 70%,var(--bg));color:var(--ink)}
+:root[data-theme="dark"] .open h1,:root[data-theme="dark"] .open .btn.line{color:var(--ink)}
+:root[data-theme="dark"] .open .lede{color:var(--ink-2)}
+:root[data-theme="dark"] .open .kicker{color:var(--bronze)}
+:root[data-theme="dark"] .open .btn.line{background:transparent;border-color:rgba(255,255,255,.3)}
+:root[data-theme="dark"] .openart svg{color:var(--ink)}
