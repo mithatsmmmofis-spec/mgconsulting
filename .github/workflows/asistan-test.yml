@@ -9,10 +9,30 @@ jobs:
     steps:
       - name: Worker sagligi
         run: curl -sS -f https://mgconsulting.mithat-smmm-ofis.workers.dev/
-      - name: Sohbet denemesi
+      - name: Sohbet istegi
+        id: chat
         run: |
           code=$(curl -sS -o out.txt -w "%{http_code}" -X POST https://mgconsulting.mithat-smmm-ofis.workers.dev/chat \
             -H "Origin: https://www.mgconsultingtr.com" -H "Content-Type: application/json" \
             --data '{"lang":"tr","messages":[{"role":"user","content":"Tek cumleyle: yevmiye defteri nedir?"}]}')
           echo "HTTP $code"; head -c 400 out.txt; echo
-          test "$code" = "200"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "err=$(grep -o '"error":"[a-z_]*"' out.txt | head -1)" >> "$GITHUB_OUTPUT"
+      - name: 503 anahtar girilmemis
+        if: steps.chat.outputs.code == '503'
+        run: exit 1
+      - name: 502 anahtar hatali veya ust servis
+        if: steps.chat.outputs.code == '502'
+        run: exit 1
+      - name: 403 origin reddedildi
+        if: steps.chat.outputs.code == '403'
+        run: exit 1
+      - name: 429 oran siniri
+        if: steps.chat.outputs.code == '429'
+        run: exit 1
+      - name: 200 basarili
+        if: steps.chat.outputs.code == '200'
+        run: echo ok
+      - name: Diger
+        if: steps.chat.outputs.code != '200' && steps.chat.outputs.code != '503' && steps.chat.outputs.code != '502' && steps.chat.outputs.code != '403' && steps.chat.outputs.code != '429'
+        run: exit 1
