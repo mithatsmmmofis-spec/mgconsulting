@@ -281,3 +281,6 @@ footer .wrap{padding-block:54px 44px}
 .open .btn.line:hover{background:var(--surface)}
 .openart svg{color:var(--ink)}
 @media (max-width:900px){.open::after{width:70%;top:-20%;right:-20%}}
+
+/* gizli ogeler */
+[hidden]{display:none!important}

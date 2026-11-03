@@ -157,3 +157,6 @@ footer strong{color:var(--on-navy)}
   .wrap{padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px))}
   .snum{display:none}
 }
+
+/* gizli ogeler */
+[hidden]{display:none!important}

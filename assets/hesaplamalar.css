@@ -136,3 +136,6 @@ footer strong{color:var(--on-navy)}
 .pg input[readonly],.brk input[readonly]{background:transparent;border:0;border-bottom:1px solid var(--rule);padding-left:0;font-weight:500;color:var(--ink);cursor:default}
 .pg input[readonly]:focus,.brk input[readonly]:focus{outline:none}
 .pacts{display:none}
+
+/* gizli ogeler */
+[hidden]{display:none!important}

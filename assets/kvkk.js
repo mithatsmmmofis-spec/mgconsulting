@@ -114,8 +114,8 @@
 (function(){
   var b=document.getElementById("ckBar"),k="mg-ck";
   var seen=false;try{seen=localStorage.getItem(k)==="1";}catch(e){}
-  if(!seen)b.hidden=false;
+  if(seen){b.hidden=true;b.style.display="none";}else{b.hidden=false;}
   document.getElementById("ckOk").addEventListener("click",function(){
-    b.hidden=true;try{localStorage.setItem(k,"1");}catch(e){}
+    b.hidden=true;b.style.display="none";try{localStorage.setItem(k,"1");}catch(e){}
   });
 })();
