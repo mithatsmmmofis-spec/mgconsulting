@@ -94,11 +94,11 @@
         body:JSON.stringify({lang:lang,messages:msgs.slice(-16)})
       });
       if(!r.ok){
-        var code="";try{code=(await r.json()).error||"";}catch(e){}
+        var code="",st="",det="";try{var j=await r.json();code=j.error||"";st=j.status||"";det=j.detail||"";}catch(e){}
         var m=L("errGen");
         if(r.status===429||code==="rate_limited")m=L("errRate");
         else if(r.status===503||code==="not_configured"||code==="bad_key")m=L("errCfg");
-        throw new Error(m);
+        throw new Error(m+" ["+r.status+(code?" "+code:"")+(st?" "+st:"")+(det?": "+det:"")+"]");
       }
       var rd=r.body.getReader(), dec=new TextDecoder();
       while(true){
@@ -110,7 +110,9 @@
       body.innerHTML=fmt(out)||"<p>"+L("empty")+"</p>";
       if(out.trim())msgs.push({role:"assistant",content:out});else msgs.pop();
     }catch(err){
-      body.innerHTML='<p class="err">'+esc(err&&err.message?err.message:L("errGen"))+"</p>";
+      var em=err&&err.message?err.message:"";
+      if(!em||/^(TypeError|Failed to fetch|NetworkError|Load failed)/.test(em))em=L("errGen")+" [ağ: "+esc(em||"fetch")+"]";
+      body.innerHTML='<p class="err">'+esc(em)+"</p>";
       if(msgs.length&&msgs[msgs.length-1].role==="user")msgs.pop();
     }
     setBusy(false);log.scrollTop=log.scrollHeight;

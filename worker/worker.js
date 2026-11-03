@@ -205,7 +205,9 @@ export default {
     }
     if (!upstream.ok) {
       const code = upstream.status === 429 ? "rate_limited" : upstream.status === 401 ? "bad_key" : "upstream_error";
-      return json(502, { error: code, status: upstream.status }, allowed);
+      let detail = "";
+      try { const j = await upstream.json(); detail = (j && j.error && j.error.message) ? String(j.error.message).slice(0, 200) : ""; } catch (e) {}
+      return json(502, { error: code, status: upstream.status, detail }, allowed);
     }
     return relay(upstream, allowed);
   },
