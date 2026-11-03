@@ -97,6 +97,7 @@
    c8s:["Splits running costs into the deductible and non-deductible portions, with the VAT effect.","Cari giderleri gider yazılabilir ve kabul edilmeyen kısma ayırır, KDV etkisiyle birlikte."],
    c8a:["Expense, excluding VAT","Gider tutarı, KDV hariç"],
    c8b:["VAT rate, per cent","KDV oranı, yüzde"],
+   c8c:["Expense account","Gider hesabı"], c8d:["Counter account","Karşı hesap"], c8j:["Journal entry","Yevmiye kaydı"],
    c8n:["Seventy per cent is deductible. Whether the VAT on the non-deductible portion may be recovered is contested; it is shown separately here.","Yüzde yetmişi gider yazılır. Kabul edilmeyen kısma isabet eden KDV'nin indirilip indirilemeyeceği tartışmalıdır; burada ayrı gösterilir."],
    f1:["<strong>Basis.</strong> Rates and periods set directly in legislation are applied as such. Amounts indexed annually are taken only from the parameters panel; nothing is assumed.","<strong>Dayanak.</strong> Doğrudan mevzuatta yazılı oran ve süreler olduğu gibi uygulanır. Yıllık güncellenen tutarlar yalnızca parametre panelinden alınır; hiçbir varsayım yapılmaz."],
    f2:["<strong>Use.</strong> These are working calculations for professional use, not an assessment of any specific matter. Results are checked against the legislation in force before they are relied on.","<strong>Kullanım.</strong> Bunlar mesleki kullanım için çalışma hesaplamalarıdır, somut olaya ilişkin değerlendirme değildir. Sonuçlar kullanılmadan önce yürürlükteki mevzuatla karşılaştırılır."],
@@ -445,22 +446,45 @@
   /* ---- car ---- */
   function calcCar(){
     var n=num(el("b_net").value), vr=num(el("b_vat").value)/100;
-    if(n<=0){el("b_res").innerHTML="";return;}
-    var ded=n*0.7, kkeg=n*0.3, vat=n*vr;
+    if(n<=0){el("b_res").innerHTML="";el("b_je").innerHTML="";return;}
+    var ded=n*0.7, kkeg=n*0.3, vat=n*vr, vatD=vat*0.7, vatN=vat*0.3;
     rows("b_res",[
       {k:L("rDed"),v:f2(ded)},
       {k:L("rKkeg"),v:f2(kkeg),neg:1},
-      {k:L("rVatD"),v:f2(vat*0.7)},
-      {k:L("rVatN"),v:f2(vat*0.3),neg:1},
+      {k:L("rVatD"),v:f2(vatD)},
+      {k:L("rVatN"),v:f2(vatN),neg:1},
       {k:L("rCost"),v:f2(n+vat),tot:1}
     ]);
+    var acc=el("b_acc"), pay=el("b_pay");
+    var accTxt=acc.options[acc.selectedIndex].text, payTxt=pay.options[pay.selectedIndex].text;
+    var tr=lang==="tr";
+    var lines=[
+      {a:accTxt, d:ded, note:tr?"Giderin %70'i":"70% of the expense"},
+      {a:"689 Diğer Olağandışı Gider ve Zararlar (KKEG)", d:kkeg+vatN, note:tr?"Giderin %30'u + bu kısma isabet eden KDV":"30% of the expense + VAT on that portion"},
+      {a:"191 İndirilecek KDV", d:vatD, note:tr?"KDV'nin %70'i":"70% of the VAT"},
+      {a:payTxt, c:n+vat, note:tr?"Fatura toplamı, KDV dahil":"Invoice total, VAT included"}
+    ];
+    var h='<table class="je"><thead><tr><th>'+(tr?"Hesap":"Account")+'</th><th>'+(tr?"Borç":"Debit")+'</th><th>'+(tr?"Alacak":"Credit")+'</th><th>'+(tr?"Açıklama":"Note")+'</th></tr></thead><tbody>';
+    var td=0,tc=0;
+    lines.forEach(function(l){
+      if(l.d)td+=l.d; if(l.c)tc+=l.c;
+      h+='<tr class="'+(l.c?"cr":"dr")+'"><td>'+l.a+'</td><td>'+(l.d?f2(l.d):"")+'</td><td>'+(l.c?f2(l.c):"")+'</td><td class="n">'+l.note+'</td></tr>';
+    });
+    h+='<tr class="tot"><td>'+(tr?"Toplam":"Total")+'</td><td>'+f2(td)+'</td><td>'+f2(tc)+'</td><td></td></tr>';
+    h+='<tr class="naz"><td>950 Kanunen Kabul Edilmeyen Giderler</td><td>'+f2(kkeg+vatN)+'</td><td></td><td class="n">'+(tr?"Nazım hesap, beyanname takibi":"Memorandum account, return tracking")+'</td></tr>';
+    h+='<tr class="naz cr"><td>951 KKEG Alacaklı Hesabı</td><td></td><td>'+f2(kkeg+vatN)+'</td><td></td></tr>';
+    h+='</tbody></table>';
+    h+='<p class="note">'+(tr
+      ?"Dayanak: GVK md. 40/1 ve 68/5 (binek otomobil giderlerinin en fazla %70'i indirilir); KDVK md. 30/d (indirilemeyen gidere isabet eden KDV indirilmez, KKEG'ye atılır). Faaliyeti kısmen veya tamamen binek otomobil kiralamak veya işletmek olanlarda kısıt uygulanmaz. Kira giderinde ayrıca aylık kira üst sınırı, ÖTV ve KDV'de ilk iktisap üst sınırı ve amortismanda tutar sınırı vardır; bunlar parametre tablosundan takip edilir."
+      :"Basis: Income Tax Law art. 40/1 and 68/5 (at most 70% of passenger car running costs are deductible); VAT Law art. 30/d (VAT on the non-deductible portion cannot be recovered and is booked as non-deductible expense). The restriction does not apply where the business leases or operates passenger cars. Lease expenses, excise and VAT on first acquisition and depreciation have separate monetary caps, tracked in the parameters table.")+'</p>';
+    el("b_je").innerHTML=h;
   }
 
   function runAll(){calcG2N();calcN2G();calcKidem();calcGec();calcDl();calcAmo();calcWc();calcCar();}
 
   ["s_gross","s_cum","n_net","n_cum","k_start","k_end","k_wage","k_bonus","k_prim","k_meal","k_transport","k_other","g_due","g_pay","g_amt",
    "d_start","d_kind","d_hol","a_cost","a_life","a_method","a_months",
-   "w_sales","w_cogs","w_ar","w_inv","w_ap","b_net","b_vat"].concat(PIDS).forEach(function(id){
+   "w_sales","w_cogs","w_ar","w_inv","w_ap","b_net","b_vat","b_acc","b_pay"].concat(PIDS).forEach(function(id){
     var e=el(id);if(e)e.addEventListener("input",runAll);
     if(e&&e.tagName==="SELECT")e.addEventListener("change",runAll);
   });
@@ -516,7 +540,7 @@
      "c1h","c1s","c1a","c1b","c1y","c1n","c2h","c2s","c2a","c2b","c2n",
      "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3p","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
-     "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8n","parNote"].forEach(function(id){
+     "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8c","c8d","c8j","c8n","parNote"].forEach(function(id){
       var e=el(id);if(e)e.textContent=L(id);
     });
     el("save").textContent=L("save");
