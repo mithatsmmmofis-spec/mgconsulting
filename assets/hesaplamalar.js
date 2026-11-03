@@ -22,7 +22,7 @@
    pp5:["Social security base, lower limit, monthly","Prime esas kazanç alt sınırı, aylık"],
    pp6:["Social security base, upper limit, monthly","Prime esas kazanç üst sınırı, aylık"],
    pp7:["Gross minimum wage, monthly","Brüt asgari ücret, aylık"],
-   pp8:["Severance pay ceiling","Kıdem tazminatı tavanı"],
+   pp8:["Severance pay ceiling, current period (selected by leaving date in the calculator)","Kıdem tazminatı tavanı, cari dönem (hesaplayıcı çıkış tarihine göre dönemi seçer)"],
    pp9:["Default surcharge, monthly rate, per cent","Gecikme zammı aylık oranı, yüzde"],
    bh1:["Income tax band, cumulative base up to","Gelir vergisi dilimi, kümülatif matrah üst sınırı"],
    bh2:["Rate","Oran"],
@@ -51,6 +51,7 @@
    c3f:["Transport allowance, monthly","Yol yardımı, aylık"],
    c3g:["Other regular benefits, monthly (fuel, clothing, housing, insurance)","Diğer düzenli yardımlar, aylık (yakacak, giyim, konut, sigorta)"],
    rBase:["Gross wage","Brüt ücret"],
+   rTavan:["Severance ceiling for the period","Dönemin kıdem tazminatı tavanı"],
    rCap:["Exceeds the ceiling; ceiling applied","Tavanı aşıyor; tavan uygulandı"],
    rNoCap:["Severance ceiling not set for this period; computed without a cap","Bu dönem için kıdem tavanı tanımlı değil; tavansız hesaplandı"],
    rAdds:["Benefits added","Eklenen yan haklar"],
@@ -291,6 +292,20 @@
   }
 
   /* ---- severance ---- */
+
+  /* kidem tavani: cikis tarihine gore donem secimi (Hazine ve Maliye Bakanligi genelgeleri) */
+  var KIDEM_TAVAN=[
+    {from:"2026-01-01",to:"2026-06-30",v:64948.77},
+    {from:"2026-07-01",to:"2026-12-31",v:73729.87}
+  ];
+  function tavanFor(dateStr){
+    for(var i=0;i<KIDEM_TAVAN.length;i++){
+      var t=KIDEM_TAVAN[i];
+      if(dateStr>=t.from&&dateStr<=t.to)return t;
+    }
+    return null;
+  }
+
   function noticeWeeks(days){
     if(days<182)return 2;
     if(days<547)return 4;
@@ -307,7 +322,7 @@
     var d1=new Date(a), d2=new Date(b);
     var days=Math.round((d2-d1)/86400000);
     if(!(days>0)){el("k_res").innerHTML="";return;}
-    var tav=P("pKidTavan"), dmgR=P("pDmg")/1000;
+    var tp=tavanFor(b), tav=tp?tp.v:P("pKidTavan"), dmgR=P("pDmg")/1000;
     var capped=tav>0&&w>tav;
     var basePer=capped?tav:w;
     var kid=basePer*days/365;
@@ -324,6 +339,7 @@
       aTr>0?{k:L("rTr"),v:"+"+f2(aTr)}:null,
       aOth>0?{k:L("rOth"),v:"+"+f2(aOth)}:null,
       {k:L("rGiy"),v:f2(w),tot:1},
+      tav>0?{k:L("rTavan")+(tp?" ("+tp.from.slice(8,10)+"."+tp.from.slice(5,7)+"."+tp.from.slice(0,4)+" – "+tp.to.slice(8,10)+"."+tp.to.slice(5,7)+"."+tp.to.slice(0,4)+")":""),v:f2(tav)}:null,
       capped?{k:L("rCap"),v:f2(tav),neg:1}:null,
       tav<=0?{k:L("rNoCap"),v:"—"}:null,
       {k:L("rSen"),v:Math.floor(days/365)+" "+L("yrs")+" "+Math.floor((days%365)/30)+" "+L("mos")+" "+days%365%30+" "+L("dys")},
