@@ -1,0 +1,18 @@
+name: MG Asistan canli test
+on:
+  workflow_dispatch:
+  push:
+    paths: [".github/workflows/asistan-test.yml"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Worker sagligi
+        run: curl -sS -f https://mgconsulting.mithat-smmm-ofis.workers.dev/
+      - name: Sohbet denemesi
+        run: |
+          code=$(curl -sS -o out.txt -w "%{http_code}" -X POST https://mgconsulting.mithat-smmm-ofis.workers.dev/chat \
+            -H "Origin: https://www.mgconsultingtr.com" -H "Content-Type: application/json" \
+            --data '{"lang":"tr","messages":[{"role":"user","content":"Tek cumleyle: yevmiye defteri nedir?"}]}')
+          echo "HTTP $code"; head -c 400 out.txt; echo
+          test "$code" = "200"
