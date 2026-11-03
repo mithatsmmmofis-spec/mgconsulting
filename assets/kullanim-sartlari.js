@@ -1,6 +1,6 @@
 (function(){
   var root=document.documentElement;
-  try{var s=localStorage.getItem("mg-theme");if(s)root.setAttribute("data-theme",s);}catch(e){}
+  try{var s=localStorage.getItem("mg-theme");root.setAttribute("data-theme",s||"light");}catch(e){root.setAttribute("data-theme","light");}
   document.getElementById("themeBtn").addEventListener("click",function(){
     var c=root.getAttribute("data-theme");
     var d=c?c==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;
