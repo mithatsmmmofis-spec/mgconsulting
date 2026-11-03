@@ -132,3 +132,33 @@ belirtir. Standart uygulama.
 Site yayına alındıktan sonra `securityheaders.com` adresine alan adını yazın.
 Yukarıdaki başlıklarla **A veya A+** not alması beklenir. Düşük not alırsa `_headers`
 dosyasının yüklendiğinden emin olun.
+
+---
+
+## 7. MG Asistan — yapay zekâ rehberi (Cloudflare Worker)
+
+`asistan.html` sayfası sohbeti küçük bir arka uca gönderir; API anahtarı yalnızca orada durur, siteye hiç inmez.
+Arka uç kodu `worker/worker.js` dosyasındadır. Bağımlılık yok, derleme yok; Cloudflare panelinde "Edit code" ile yapıştırılır.
+
+### Kurulum (10 dakika, komut satırı gerekmez)
+
+1. **API anahtarı:** `platform.claude.com` → hesap aç → **API Keys → Create key** → anahtarı kopyala (bir daha gösterilmez). Faturalandırma için kart tanımlanır; kullanım kadar ödenir.
+2. **Cloudflare:** `cloudflare.com` → ücretsiz hesap → **Workers & Pages → Create → Create Worker** → ad: `mg-asistan` → **Deploy**.
+3. **Edit code** → açılan editördeki her şeyi sil → `worker/worker.js` dosyasının tamamını yapıştır → **Deploy**.
+4. **Settings → Variables and Secrets → Add variable:**
+   - `ANTHROPIC_API_KEY` → tür **Secret** → 1. adımdaki anahtar
+   - (isteğe bağlı) `ALLOWED_ORIGIN` → tür Text → `https://www.mgconsultingtr.com`
+5. Worker adresini kopyala: `https://mg-asistan.<hesapadı>.workers.dev`
+6. `assets/asistan.js` dosyasının başındaki `var ENDPOINT="";` satırına bu adresi yaz, siteyi yeniden yayınla.
+   Tarayıcıda `asistan.html` açılınca durum rozeti **Hazır** olur.
+
+### Güvenlik
+- Worker yalnızca `https://www.mgconsultingtr.com` kaynağından gelen isteği kabul eder (Origin denetimi).
+- IP başına dakikada 8 istek sınırı (en iyi çaba). Kalıcı sınır için Cloudflare **Security → WAF → Rate limiting rules** ile `/chat` yoluna kural eklenebilir.
+- Mesaj boyu ve sohbet uzunluğu sınırlı; sohbet hiçbir yerde kaydedilmez.
+- Sayfanın CSP'si yalnızca `*.workers.dev` adresine bağlantıya izin verir.
+
+### Model ve maliyet
+- Varsayılan model `claude-opus-5-5`; `MODEL` değişkeniyle değiştirilebilir (ör. `claude-sonnet-5-5` daha ucuz).
+- Sistem talimatı önbelleğe alınır (prompt caching), her soruda yeniden ücretlendirilmez.
+- Günlük harcama sınırı için `platform.claude.com` → **Limits** bölümünden aylık üst sınır konulmalıdır.

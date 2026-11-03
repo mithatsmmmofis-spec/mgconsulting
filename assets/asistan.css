@@ -1,0 +1,125 @@
+:root{
+  --ink:#0A1F33; --ink-2:#44586C; --ink-3:#7B8B9B;
+  --bg:#F8F6F2; --bg-2:#F1EEE8; --bg-3:#E6E2D9; --surface:#FFFFFF;
+  --rule:#DFDAD0; --rule-2:#C4BCAE;
+  --navy:#0A1F33; --on-navy:#F8F6F2; --on-navy-2:rgba(248,246,242,.68);
+  --bronze:#9A7524; --bronze-soft:#F0E7D2;
+  --seal:#9A3225; --seal-soft:#F3E3DF;
+  --ok:#2A6B4C; --ok-soft:#E4EFE8;
+  --font-display:"Archivo","Segoe UI",system-ui,sans-serif;
+  --font-body:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-data:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ink:#ECE8E0; --ink-2:#B0ABA0; --ink-3:#827D73;
+  --bg:#0B0F13; --bg-2:#10161D; --bg-3:#171F28; --surface:#121A22;
+  --rule:#212A34; --rule-2:#2E3945;
+  --navy:#060B10; --on-navy:#ECE8E0; --on-navy-2:rgba(236,232,224,.66);
+  --bronze:#CBA45A; --bronze-soft:#241D0F;
+  --seal:#DF8278; --seal-soft:#2A1917;
+  --ok:#62BC90; --ok-soft:#11251C;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --ink:#ECE8E0; --ink-2:#B0ABA0; --ink-3:#827D73;
+  --bg:#0B0F13; --bg-2:#10161D; --bg-3:#171F28; --surface:#121A22;
+  --rule:#212A34; --rule-2:#2E3945;
+  --navy:#060B10; --on-navy:#ECE8E0; --on-navy-2:rgba(236,232,224,.66);
+  --bronze:#CBA45A; --bronze-soft:#241D0F;
+  --seal:#DF8278; --seal-soft:#2A1917;
+  --ok:#62BC90; --ok-soft:#11251C;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--navy)}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;margin:0;letter-spacing:-.022em;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--font-data);font-variant-numeric:tabular-nums}
+.kicker{font-family:var(--font-display);font-size:10.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--bronze);font-weight:700}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--bronze);outline-offset:3px}
+
+.util{background:var(--navy);color:var(--on-navy-2);font-size:12.5px}
+.util .wrap{display:flex;gap:8px 18px;align-items:center;padding-block:8px;flex-wrap:wrap}
+.util a{text-decoration:none;color:inherit}
+.util .right{margin-left:auto;display:flex;gap:6px}
+.util button{font:inherit;font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:transparent;border:1px solid rgba(255,255,255,.22);color:var(--on-navy);padding:5px 10px;cursor:pointer}
+.util button:hover{background:rgba(255,255,255,.12)}
+.util button[aria-pressed="true"]{background:var(--on-navy);color:var(--navy);border-color:var(--on-navy)}
+
+header{background:var(--navy);color:var(--on-navy)}
+header .wrap{padding-block:44px 38px}
+header h1{font-size:clamp(28px,4.4vw,40px);line-height:1.08;margin-top:16px;font-weight:700}
+header p{margin-top:16px;font-size:16.5px;color:var(--on-navy-2);max-width:66ch}
+
+footer{background:var(--navy);color:var(--on-navy-2);font-size:13px;margin-top:34px}
+footer .wrap{padding-block:32px 42px;display:grid;gap:10px}
+footer p{max-width:94ch;line-height:1.6;opacity:.88}
+footer strong{color:var(--on-navy)}
+.btn{font-family:var(--font-display);font-weight:600;font-size:13px;border:1px solid transparent;padding:9px 17px;cursor:pointer;white-space:nowrap}
+.btn.p{background:var(--navy);color:var(--on-navy)}
+.btn.p:disabled{opacity:.45;cursor:default}
+.btn.s{background:transparent;color:var(--ink);border-color:var(--rule-2)}
+.btn.s:hover{border-color:var(--ink)}
+/* --- guvenlik seridi --- */
+.secstrip{background:var(--bg-2);border-bottom:1px solid var(--rule)}
+.secstrip .wrap{padding-block:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px 28px}
+.si{display:flex;gap:12px;align-items:flex-start;min-width:0}
+.si svg{width:21px;height:21px;flex:none;color:var(--bronze);margin-top:2px}
+.si span{min-width:0}
+.si b{display:block;font-family:var(--font-display);font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.si i{display:block;font-style:normal;font-size:12.5px;color:var(--ink-2);margin-top:3px;line-height:1.5}
+.si i a{color:var(--bronze);text-decoration:none;font-weight:600}
+.si i a:hover{text-decoration:underline}
+
+
+/* --- sohbet --- */
+main.wrap{padding-block:30px 10px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:26px;align-items:start}
+.chat{background:var(--surface);border:1px solid var(--rule);min-width:0;display:flex;flex-direction:column;min-height:560px}
+.chat .head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--rule)}
+.chat .head b{font-family:var(--font-display);font-size:15px;font-weight:600}
+.chat .head .st{margin-left:auto;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--font-display);font-weight:700;color:var(--ink-3);display:flex;align-items:center;gap:7px}
+.chat .head .st::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
+.chat .head .st.on{color:var(--ok)}.chat .head .st.on::before{background:var(--ok)}
+.chat .head .st.busy{color:var(--bronze)}.chat .head .st.busy::before{background:var(--bronze)}
+.chat .head .st.off{color:var(--seal)}.chat .head .st.off::before{background:var(--seal)}
+.log{flex:1;overflow-y:auto;padding:18px;display:grid;gap:14px;align-content:start;max-height:62vh}
+.msg{display:grid;gap:5px;min-width:0}
+.msg .who{font-family:var(--font-display);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink-3)}
+.msg.bot .who{color:var(--bronze)}
+.msg .b{font-size:15px;line-height:1.6;padding:12px 15px;border:1px solid var(--rule);background:var(--bg);max-width:78ch;overflow-wrap:anywhere}
+.msg.me .b{background:var(--bronze-soft);border-color:transparent;justify-self:end}
+.msg.bot .b{background:var(--surface)}
+.msg .b p{margin:0}.msg .b p+p,.msg .b ul+p,.msg .b p+ul{margin-top:9px}
+.msg .b ul{margin:0;padding-left:18px}.msg .b li{margin:3px 0}
+.msg .b .not{display:block;margin-top:11px;padding-top:9px;border-top:1px dashed var(--rule-2);font-size:12.5px;color:var(--ink-3)}
+.msg .b .err{color:var(--seal)}
+.starters{padding:0 18px 14px;display:flex;flex-wrap:wrap;gap:8px}
+.starters button{font:inherit;font-size:13px;background:var(--bg-2);border:1px solid var(--rule);color:var(--ink-2);padding:7px 12px;cursor:pointer;text-align:left}
+.starters button:hover{border-color:var(--bronze);color:var(--ink)}
+.ask{border-top:1px solid var(--rule);padding:14px 18px;display:grid;gap:10px}
+.ask textarea{font-family:var(--font-body);font-size:15px;line-height:1.5;padding:11px 13px;border:1px solid var(--rule-2);background:var(--surface);color:var(--ink);width:100%;min-height:72px;resize:vertical}
+.ask .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ask .hint{font-size:12.5px;color:var(--ink-3);margin-left:auto}
+.notice{margin:18px;padding:12px 14px;background:var(--seal-soft);border:1px solid var(--seal);color:var(--ink);font-size:14px}
+aside.side{display:grid;gap:16px;min-width:0}
+.sbox{background:var(--surface);border:1px solid var(--rule);padding:16px 18px}
+.sbox h3{font-size:14px;font-weight:600;margin-bottom:8px}
+.sbox p,.sbox li{font-size:13.5px;color:var(--ink-2);line-height:1.55}
+.sbox ul{margin:0;padding-left:17px}.sbox li{margin:4px 0}
+.sbox a{color:var(--bronze);font-weight:600;text-decoration:none}.sbox a:hover{text-decoration:underline}
+@media (max-width:980px){main.wrap{grid-template-columns:1fr}}
+@media (max-width:640px){
+  header .wrap{padding-block:34px 30px}
+  .util .wrap{font-size:11.5px;gap:6px 12px}
+  .util .right{width:100%;margin-left:0;justify-content:flex-start}
+  .util button{min-height:42px;display:inline-flex;align-items:center}
+  .secstrip .wrap{padding-block:18px;gap:14px}
+  .chat{min-height:0}.log{max-height:56vh;padding:14px}
+  .msg .b{font-size:14.5px;max-width:none}
+  .ask textarea{font-size:16px}
+  .btn{min-height:42px}
+}
+@media (max-width:420px){.wrap{padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px))}}
+[hidden]{display:none!important}
