@@ -1,7 +1,7 @@
 /* MG Asistan — sayfa betigi. Sohbet worker/worker.js adresine gider; anahtar tarayicida yoktur. */
 (function(){
   // Cloudflare Worker adresi. Worker yayinlandiginda buraya yazilir (sonunda /chat olmadan).
-  var ENDPOINT="";
+  var ENDPOINT="https://mgconsulting.mithat-smmm-ofis.workers.dev";
 
   var root=document.documentElement, lang="tr", busy=false, msgs=[];
   function el(id){return document.getElementById(id);}
