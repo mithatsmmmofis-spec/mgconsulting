@@ -98,6 +98,26 @@
    c8a:["Expense, excluding VAT","Gider tutarı, KDV hariç"],
    c8b:["VAT rate, per cent","KDV oranı, yüzde"],
    c8c:["Expense account","Gider hesabı"], c8d:["Counter account","Karşı hesap"], c8j:["Journal entry","Yevmiye kaydı"],
+   c9h:["Financing expense restriction","Finansman gider kısıtlaması"],
+   c9s:["Where borrowed funds exceed equity, ten per cent of the financing expense attributable to the excess is non-deductible.","Yabancı kaynaklar öz kaynakları aşıyorsa, aşan kısma isabet eden finansman giderinin yüzde onu kanunen kabul edilmeyen giderdir."],
+   c9a:["Total borrowed funds, balance sheet","Toplam yabancı kaynak, bilanço"],
+   c9b:["Total equity, balance sheet","Toplam öz kaynak, bilanço"],
+   c9c:["Financing expenses for the period (interest, FX loss, commission, etc.)","Dönem finansman giderleri (faiz, kur farkı, komisyon vb.)"],
+   c9d:["Of which capitalised into investment cost","Bunun yatırım maliyetine eklenen kısmı"],
+   c9e:["Restriction rate, per cent (set by Presidential Decree)","Kısıt oranı, yüzde (Cumhurbaşkanı Kararı ile belirlenir)"],
+   c9f:["Financing income on the same loans to be netted (FX gain, etc.)","Aynı kaynağa ait netleştirilecek finansman geliri (kur farkı geliri vb.)"],
+   c9j:["Journal entry","Yevmiye kaydı"],
+   c9n:["Corporate Tax Law art. 11/1-i and Income Tax Law art. 41/9; the rate is ten per cent under Presidential Decree 3490. Not applied to banks, financial institutions, leasing, factoring and financing companies. Financing expense capitalised into investment cost is excluded. Applied in each advance tax period on that period's balance sheet. Applies to borrowed funds used from 1 January 2021.","KVK md. 11/1-i ve GVK md. 41/9; oran 3490 sayılı Cumhurbaşkanı Kararı ile yüzde on. Bankalar, finansal kurumlar, finansal kiralama, faktoring ve finansman şirketlerine uygulanmaz. Yatırım maliyetine eklenen finansman gideri hesaba katılmaz. Her geçici vergi döneminde o dönem bilançosu üzerinden uygulanır. 1 Ocak 2021'den itibaren kullanılan yabancı kaynaklar kapsamdadır."],
+   rYk:["Borrowed funds","Yabancı kaynak"], rOk:["Equity","Öz kaynak"], rAsan:["Excess of borrowed funds over equity","Yabancı kaynağın öz kaynağı aşan kısmı"],
+   rOranA:["Share of excess in borrowed funds","Aşan kısmın yabancı kaynağa oranı"], rFgNet:["Financing expense in scope (net of capitalised and netted income)","Kapsamdaki finansman gideri (yatırım kısmı ve netleştirilen gelir düşülmüş)"],
+   rFgIsabet:["Financing expense attributable to the excess","Aşan kısma isabet eden finansman gideri"], rFgKkeg:["Non-deductible financing expense","KKEG finansman gideri"],
+   rNoRestr:["Borrowed funds do not exceed equity; no restriction this period.","Yabancı kaynak öz kaynağı aşmıyor; bu dönem kısıt uygulanmaz."],
+   c10h:["Inflation accounting worksheet","Enflasyon muhasebesi çalışması"],
+   c10s:["Restates non-monetary items by the producer price index and produces the adjustment entries and the net restatement result.","Parasal olmayan kalemleri Yİ-ÜFE ile düzeltir; düzeltme kayıtlarını ve net düzeltme sonucunu üretir."],
+   c10a:["PPI (Yİ-ÜFE) at the balance sheet date","Bilanço günü Yİ-ÜFE endeksi"], c10b:["Balance sheet date","Bilanço tarihi"],
+   c10t1:["Item","Kalem"], c10t2:["Side","Niteliği"], c10t3:["Amount","Tutar"], c10t4:["PPI at basis date","Düzeltmeye esas tarih endeksi"],
+   c10r:["Restatement table","Düzeltme tablosu"], c10j:["Journal entries","Yevmiye kayıtları"],
+   c10n:["Tax Procedure Law repeated art. 298/A and Provisional art. 33. Monetary items (cash, banks, receivables, payables) are not restated. Coefficient = index at balance sheet date / index at basis date (acquisition month, or the previous restatement date for items restated before). Differences on asset items go to account 698; capital goes through 502. Whether restatement applies in a period depends on the index conditions and the Ministry's communiqués; confirm before use.","VUK mükerrer md. 298/A ve geçici md. 33. Parasal kalemler (kasa, banka, alacak, borç) düzeltilmez. Katsayı = bilanço günü endeksi / düzeltmeye esas tarih endeksi (iktisap ayı; daha önce düzeltilmiş kalemlerde önceki düzeltme tarihi). Aktif kalem farkları 698'e, sermaye farkı 502'ye gider. Düzeltmenin o dönemde uygulanıp uygulanmayacağı endeks şartına ve Bakanlık tebliğlerine bağlıdır; kullanmadan önce teyit edin."],
    c8n:["Seventy per cent is deductible. Whether the VAT on the non-deductible portion may be recovered is contested; it is shown separately here.","Yüzde yetmişi gider yazılır. Kabul edilmeyen kısma isabet eden KDV'nin indirilip indirilemeyeceği tartışmalıdır; burada ayrı gösterilir."],
    f1:["<strong>Basis.</strong> Rates and periods set directly in legislation are applied as such. Amounts indexed annually are taken only from the parameters panel; nothing is assumed.","<strong>Dayanak.</strong> Doğrudan mevzuatta yazılı oran ve süreler olduğu gibi uygulanır. Yıllık güncellenen tutarlar yalnızca parametre panelinden alınır; hiçbir varsayım yapılmaz."],
    f2:["<strong>Use.</strong> These are working calculations for professional use, not an assessment of any specific matter. Results are checked against the legislation in force before they are relied on.","<strong>Kullanım.</strong> Bunlar mesleki kullanım için çalışma hesaplamalarıdır, somut olaya ilişkin değerlendirme değildir. Sonuçlar kullanılmadan önce yürürlükteki mevzuatla karşılaştırılır."],
@@ -480,14 +500,106 @@
     el("b_je").innerHTML=h;
   }
 
-  function runAll(){calcG2N();calcN2G();calcKidem();calcGec();calcDl();calcAmo();calcWc();calcCar();}
+
+  /* ---- finansman gider kisitlamasi ---- */
+  function jeTable(lines,tr,extra){
+    var h='<table class="je"><thead><tr><th>'+(tr?"Hesap":"Account")+'</th><th>'+(tr?"Borç":"Debit")+'</th><th>'+(tr?"Alacak":"Credit")+'</th><th>'+(tr?"Açıklama":"Note")+'</th></tr></thead><tbody>';
+    var td=0,tc=0;
+    lines.forEach(function(l){
+      if(l.sep){h+='<tr class="sep"><td colspan="4">'+l.sep+'</td></tr>';return;}
+      if(l.d)td+=l.d; if(l.c)tc+=l.c;
+      h+='<tr class="'+(l.c?"cr":"dr")+(l.naz?" naz":"")+'"><td>'+l.a+'</td><td>'+(l.d?f2(l.d):"")+'</td><td>'+(l.c?f2(l.c):"")+'</td><td class="n">'+(l.note||"")+'</td></tr>';
+    });
+    if(extra!==false)h+='<tr class="tot"><td>'+(tr?"Toplam":"Total")+'</td><td>'+f2(td)+'</td><td>'+f2(tc)+'</td><td></td></tr>';
+    return h+'</tbody></table>';
+  }
+  function calcFg(){
+    var yk=num(el("fg_yk").value), ok=num(el("fg_ok").value), fg=num(el("fg_fg").value), yat=num(el("fg_yat").value), gelir=num(el("fg_gelir").value), oran=num(el("fg_oran").value)/100;
+    var tr=lang==="tr";
+    if(yk<=0||fg<=0){el("fg_res").innerHTML="";el("fg_je").innerHTML="";return;}
+    var asan=Math.max(0,yk-ok), pay=yk>0?asan/yk:0, net=Math.max(0,fg-yat-gelir), isabet=net*pay, kkeg=isabet*oran;
+    if(asan<=0){rows("fg_res",[{k:L("rYk"),v:f2(yk)},{k:L("rOk"),v:f2(ok)},{k:L("rNoRestr"),v:"0,00",tot:1}]);el("fg_je").innerHTML="";return;}
+    rows("fg_res",[
+      {k:L("rYk"),v:f2(yk)},{k:L("rOk"),v:f2(ok)},
+      {k:L("rAsan"),v:f2(asan)},
+      {k:L("rOranA"),v:(pay*100).toFixed(2).replace(".",",")+" %"},
+      {k:L("rFgNet"),v:f2(net)},
+      {k:L("rFgIsabet"),v:f2(isabet)},
+      {k:L("rFgKkeg")+" ("+(oran*100)+"%)",v:f2(kkeg),tot:1,neg:1}
+    ]);
+    el("fg_je").innerHTML=jeTable([
+      {a:"950 Kanunen Kabul Edilmeyen Giderler",d:kkeg,note:tr?"Finansman gider kısıtlaması, nazım hesap":"Financing expense restriction, memorandum"},
+      {a:"951 KKEG Alacaklı Hesabı",c:kkeg}
+    ],tr)+'<p class="note">'+(tr
+      ?"Finansman giderleri 780 ve 660 hesaplarda kalır; muhasebe kaydı değişmez. Kısıt, beyannamede KKEG satırına eklenerek uygulanır; nazım hesaplar izleme içindir. Aynı yabancı kaynağa ilişkin kur farkı gelir ve giderleri dönem içinde netleştirilir (KVK Genel Tebliği seri no 18)."
+      :"Financing expenses stay in accounts 780 and 660; no ledger reclassification. The restriction is applied on the return as a non-deductible item; memorandum accounts are for tracking. FX gains and losses on the same loan are netted within the period (Corporate Tax General Communiqué no. 18).")+'</p>';
+  }
+
+  /* ---- enflasyon muhasebesi ---- */
+  var EA_CREDIT={"257":1,"500":1,"540":1,"570":1};
+  function calcEa(){
+    var end=num(el("ea_end").value), tr=lang==="tr";
+    var rowsEl=[].slice.call(document.querySelectorAll("#ea_tab tbody tr"));
+    rowsEl.forEach(function(r){
+      var k=r.querySelector(".ea_k").value;
+      r.querySelector("td.n").textContent=EA_CREDIT[k]?(tr?"Alacak":"Credit"):(tr?"Borç":"Debit");
+    });
+    if(end<=0){el("ea_out").innerHTML="";el("ea_je").innerHTML="";return;}
+    var items=[];
+    rowsEl.forEach(function(r){
+      var sel=r.querySelector(".ea_k"), t=num(r.querySelector(".ea_t").value), e=num(r.querySelector(".ea_e").value);
+      if(t<=0||e<=0)return;
+      var kat=end/e, adj=t*kat, fark=adj-t;
+      items.push({code:sel.value,name:sel.options[sel.selectedIndex].text.replace(/ \(alacak\)/,""),t:t,e:e,kat:kat,adj:adj,fark:fark,credit:!!EA_CREDIT[sel.value]});
+    });
+    if(!items.length){el("ea_out").innerHTML="";el("ea_je").innerHTML="";return;}
+    var h='<table class="ytab" style="min-width:720px"><thead><tr><th>'+(tr?"Kalem":"Item")+'</th><th>'+(tr?"Tutar":"Amount")+'</th><th>'+(tr?"Esas endeks":"Basis index")+'</th><th>'+(tr?"Katsayı":"Coefficient")+'</th><th>'+(tr?"Düzeltilmiş":"Restated")+'</th><th>'+(tr?"Fark":"Difference")+'</th></tr></thead><tbody>';
+    var net698=0;
+    items.forEach(function(i){
+      h+='<tr><td>'+i.name+'</td><td>'+f2(i.t)+'</td><td>'+i.e.toFixed(2).replace(".",",")+'</td><td>'+i.kat.toFixed(5).replace(".",",")+'</td><td>'+f2(i.adj)+'</td><td class="'+(i.credit?"neg":"pos")+'">'+f2(i.fark)+'</td></tr>';
+      net698+= i.credit? -i.fark : i.fark;
+    });
+    h+='</tbody></table>';
+    el("ea_out").innerHTML=h;
+    var lines=[];
+    items.forEach(function(i){
+      if(i.fark===0)return;
+      if(i.code==="500"){
+        lines.push({sep:tr?"Sermaye düzeltmesi":"Capital restatement"});
+        lines.push({a:"698 Enflasyon Düzeltme Hesabı",d:i.fark,note:tr?"Sermaye düzeltme farkı":"Capital restatement difference"});
+        lines.push({a:"502 Sermaye Düzeltmesi Olumlu Farkları",c:i.fark});
+      }else if(i.credit){
+        lines.push({sep:i.name});
+        lines.push({a:"698 Enflasyon Düzeltme Hesabı",d:i.fark});
+        lines.push({a:i.name,c:i.fark,note:tr?"Pasif kalem düzeltme farkı":"Credit-side restatement difference"});
+      }else{
+        lines.push({sep:i.name});
+        lines.push({a:i.name,d:i.fark,note:tr?"Aktif kalem düzeltme farkı":"Asset restatement difference"});
+        lines.push({a:"698 Enflasyon Düzeltme Hesabı",c:i.fark});
+      }
+    });
+    lines.push({sep:tr?"698 hesabın kapatılması":"Closing account 698"});
+    if(net698>=0){
+      lines.push({a:"698 Enflasyon Düzeltme Hesabı",d:net698,note:tr?"Net alacak bakiyesi kâra":"Net credit balance to profit"});
+      lines.push({a:"648 Enflasyon Düzeltme Kârları",c:net698});
+    }else{
+      lines.push({a:"658 Enflasyon Düzeltme Zararları",d:-net698,note:tr?"Net borç bakiyesi zarara":"Net debit balance to loss"});
+      lines.push({a:"698 Enflasyon Düzeltme Hesabı",c:-net698});
+    }
+    el("ea_je").innerHTML=jeTable(lines,tr,false)+'<p class="note">'+(tr
+      ?"Net düzeltme sonucu: "+(net698>=0?"kâr ":"zarar ")+f2(Math.abs(net698))+". Vergiye tabi olup olmadığı ilgili yıl için VUK geçici md. 33 ve tebliğ hükümlerine göre belirlenir. Amortismana tabi kalemlerde birikmiş amortisman da aynı katsayı ile düzeltilir; yukarıdaki satırlara 257 ekleyerek izleyebilirsiniz."
+      :"Net restatement result: "+(net698>=0?"gain ":"loss ")+f2(Math.abs(net698))+". Whether it is taxable for the year follows Tax Procedure Law Provisional art. 33 and the communiqués. Accumulated depreciation is restated with the same coefficient; add a 257 line above to track it.")+'</p>';
+  }
+
+  function runAll(){calcG2N();calcN2G();calcKidem();calcGec();calcDl();calcAmo();calcWc();calcCar();calcFg();calcEa();}
 
   ["s_gross","s_cum","n_net","n_cum","k_start","k_end","k_wage","k_bonus","k_prim","k_meal","k_transport","k_other","g_due","g_pay","g_amt",
    "d_start","d_kind","d_hol","a_cost","a_life","a_method","a_months",
-   "w_sales","w_cogs","w_ar","w_inv","w_ap","b_net","b_vat","b_acc","b_pay"].concat(PIDS).forEach(function(id){
+   "w_sales","w_cogs","w_ar","w_inv","w_ap","b_net","b_vat","b_acc","b_pay","fg_yk","fg_ok","fg_fg","fg_yat","fg_oran","fg_gelir","ea_end","ea_date"].concat(PIDS).forEach(function(id){
     var e=el(id);if(e)e.addEventListener("input",runAll);
     if(e&&e.tagName==="SELECT")e.addEventListener("change",runAll);
   });
+  [].forEach.call(document.querySelectorAll("#ea_tab input,#ea_tab select"),function(e){e.addEventListener("input",runAll);e.addEventListener("change",runAll);});
   el("save").addEventListener("click",saveP);
   el("reset").addEventListener("click",function(){
     try{localStorage.removeItem("mg-params");}catch(e){}
@@ -540,7 +652,7 @@
      "c1h","c1s","c1a","c1b","c1y","c1n","c2h","c2s","c2a","c2b","c2n",
      "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3p","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
-     "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8c","c8d","c8j","c8n","parNote"].forEach(function(id){
+     "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8c","c8d","c8j","c8n","c9h","c9s","c9a","c9b","c9c","c9d","c9e","c9f","c9j","c9n","c10h","c10s","c10a","c10b","c10t1","c10t2","c10t3","c10t4","c10r","c10j","c10n","parNote"].forEach(function(id){
       var e=el(id);if(e)e.textContent=L(id);
     });
     el("save").textContent=L("save");

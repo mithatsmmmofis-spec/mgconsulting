@@ -228,6 +228,53 @@
    </div>
   </section>
 
+  <section class="card">
+   <h3 id="c9h">Financing expense restriction</h3>
+   <p class="sub" id="c9s">Where borrowed funds exceed equity, ten per cent of the financing expense attributable to the excess is non-deductible.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c9a">Total borrowed funds, balance sheet</span><input id="fg_yk" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c9b">Total equity, balance sheet</span><input id="fg_ok" inputmode="decimal" placeholder="0"></label>
+    </div>
+    <div class="two">
+     <label><span id="c9c">Financing expenses for the period (interest, FX loss, commission, etc.)</span><input id="fg_fg" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c9d">Of which capitalised into investment cost</span><input id="fg_yat" inputmode="decimal" placeholder="0"></label>
+    </div>
+    <div class="two">
+     <label><span id="c9e">Restriction rate, per cent (set by Presidential Decree)</span><input id="fg_oran" value="10" inputmode="decimal" readonly></label>
+     <label><span id="c9f">Financing income on the same loans to be netted (FX gain, etc.)</span><input id="fg_gelir" inputmode="decimal" placeholder="0"></label>
+    </div>
+    <div class="res" id="fg_res"></div>
+    <h4 class="ysub" id="c9j">Journal entry</h4>
+    <div class="tw" id="fg_je"></div>
+    <p class="note" id="c9n">Corporate Tax Law art. 11/1-i and Income Tax Law art. 41/9; the rate is set at ten per cent by Presidential Decree 3490. The restriction does not apply to credit institutions, financial institutions, leasing, factoring and financing companies. Financing expense capitalised into investment cost is excluded. Applied in each advance tax period on the balance sheet of that period.</p>
+   </div>
+  </section>
+
+  <section class="card">
+   <h3 id="c10h">Inflation accounting worksheet</h3>
+   <p class="sub" id="c10s">Restates non-monetary items by the producer price index and produces the adjustment entries and the net restatement result.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c10a">PPI (Yİ-ÜFE) at the balance sheet date</span><input id="ea_end" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c10b">Balance sheet date</span><input id="ea_date" type="date"></label>
+    </div>
+    <div class="tw"><table class="je ea" id="ea_tab"><thead><tr><th id="c10t1">Item</th><th id="c10t2">Account</th><th id="c10t3">Amount</th><th id="c10t4">PPI at basis date</th></tr></thead><tbody>
+     <tr><td><select class="ea_k"><option value="153">153 Ticari Mallar</option><option value="150">150 İlk Madde ve Malzeme</option><option value="152">152 Mamuller</option><option value="252">252 Binalar</option><option value="253">253 Tesis, Makine ve Cihazlar</option><option value="254">254 Taşıtlar</option><option value="255">255 Demirbaşlar</option><option value="250">250 Arazi ve Arsalar</option><option value="257">257 Birikmiş Amortismanlar (alacak)</option><option value="500">500 Sermaye (alacak)</option><option value="540">540 Yasal Yedekler (alacak)</option><option value="570">570 Geçmiş Yıllar Kârları (alacak)</option><option value="580">580 Geçmiş Yıllar Zararları</option></select></td><td class="n"></td><td><input class="ea_t" inputmode="decimal" placeholder="0"></td><td><input class="ea_e" inputmode="decimal" placeholder="0"></td></tr>
+     <tr><td><select class="ea_k"><option value="253">253 Tesis, Makine ve Cihazlar</option><option value="153">153 Ticari Mallar</option><option value="150">150 İlk Madde ve Malzeme</option><option value="152">152 Mamuller</option><option value="252">252 Binalar</option><option value="254">254 Taşıtlar</option><option value="255">255 Demirbaşlar</option><option value="250">250 Arazi ve Arsalar</option><option value="257">257 Birikmiş Amortismanlar (alacak)</option><option value="500">500 Sermaye (alacak)</option><option value="540">540 Yasal Yedekler (alacak)</option><option value="570">570 Geçmiş Yıllar Kârları (alacak)</option><option value="580">580 Geçmiş Yıllar Zararları</option></select></td><td class="n"></td><td><input class="ea_t" inputmode="decimal" placeholder="0"></td><td><input class="ea_e" inputmode="decimal" placeholder="0"></td></tr>
+     <tr><td><select class="ea_k"><option value="257">257 Birikmiş Amortismanlar (alacak)</option><option value="153">153 Ticari Mallar</option><option value="150">150 İlk Madde ve Malzeme</option><option value="152">152 Mamuller</option><option value="252">252 Binalar</option><option value="253">253 Tesis, Makine ve Cihazlar</option><option value="254">254 Taşıtlar</option><option value="255">255 Demirbaşlar</option><option value="250">250 Arazi ve Arsalar</option><option value="500">500 Sermaye (alacak)</option><option value="540">540 Yasal Yedekler (alacak)</option><option value="570">570 Geçmiş Yıllar Kârları (alacak)</option><option value="580">580 Geçmiş Yıllar Zararları</option></select></td><td class="n"></td><td><input class="ea_t" inputmode="decimal" placeholder="0"></td><td><input class="ea_e" inputmode="decimal" placeholder="0"></td></tr>
+     <tr><td><select class="ea_k"><option value="500">500 Sermaye (alacak)</option><option value="153">153 Ticari Mallar</option><option value="150">150 İlk Madde ve Malzeme</option><option value="152">152 Mamuller</option><option value="252">252 Binalar</option><option value="253">253 Tesis, Makine ve Cihazlar</option><option value="254">254 Taşıtlar</option><option value="255">255 Demirbaşlar</option><option value="250">250 Arazi ve Arsalar</option><option value="257">257 Birikmiş Amortismanlar (alacak)</option><option value="540">540 Yasal Yedekler (alacak)</option><option value="570">570 Geçmiş Yıllar Kârları (alacak)</option><option value="580">580 Geçmiş Yıllar Zararları</option></select></td><td class="n"></td><td><input class="ea_t" inputmode="decimal" placeholder="0"></td><td><input class="ea_e" inputmode="decimal" placeholder="0"></td></tr>
+     <tr><td><select class="ea_k"><option value="540">540 Yasal Yedekler (alacak)</option><option value="153">153 Ticari Mallar</option><option value="150">150 İlk Madde ve Malzeme</option><option value="152">152 Mamuller</option><option value="252">252 Binalar</option><option value="253">253 Tesis, Makine ve Cihazlar</option><option value="254">254 Taşıtlar</option><option value="255">255 Demirbaşlar</option><option value="250">250 Arazi ve Arsalar</option><option value="257">257 Birikmiş Amortismanlar (alacak)</option><option value="500">500 Sermaye (alacak)</option><option value="570">570 Geçmiş Yıllar Kârları (alacak)</option><option value="580">580 Geçmiş Yıllar Zararları</option></select></td><td class="n"></td><td><input class="ea_t" inputmode="decimal" placeholder="0"></td><td><input class="ea_e" inputmode="decimal" placeholder="0"></td></tr>
+     <tr><td><select class="ea_k"><option value="570">570 Geçmiş Yıllar Kârları (alacak)</option><option value="153">153 Ticari Mallar</option><option value="150">150 İlk Madde ve Malzeme</option><option value="152">152 Mamuller</option><option value="252">252 Binalar</option><option value="253">253 Tesis, Makine ve Cihazlar</option><option value="254">254 Taşıtlar</option><option value="255">255 Demirbaşlar</option><option value="250">250 Arazi ve Arsalar</option><option value="257">257 Birikmiş Amortismanlar (alacak)</option><option value="500">500 Sermaye (alacak)</option><option value="540">540 Yasal Yedekler (alacak)</option><option value="580">580 Geçmiş Yıllar Zararları</option></select></td><td class="n"></td><td><input class="ea_t" inputmode="decimal" placeholder="0"></td><td><input class="ea_e" inputmode="decimal" placeholder="0"></td></tr>
+    </tbody></table></div>
+    <h4 class="ysub" id="c10r">Restatement table</h4>
+    <div class="tw" id="ea_out"></div>
+    <h4 class="ysub" id="c10j">Journal entries</h4>
+    <div class="tw" id="ea_je"></div>
+    <p class="note" id="c10n">Tax Procedure Law repeated art. 298/A and Provisional art. 33. Monetary items (cash, banks, receivables, payables) are not restated. The coefficient is the index at the balance sheet date divided by the index at the basis date (acquisition month, or the previous restatement date for items restated before). Differences on asset items are taken to account 698; capital and reserves go through 502 and the relevant equity accounts. Whether restatement applies in a given period depends on the index conditions and the Ministry's communiqués; confirm before use.</p>
+   </div>
+  </section>
+
  </div>
 </main>
 
