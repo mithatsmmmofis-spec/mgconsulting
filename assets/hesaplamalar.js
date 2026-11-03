@@ -33,6 +33,7 @@
    c1s:["Monthly payroll with cumulative base, minimum wage exemption and stamp duty.","Kümülatif matrah, asgari ücret istisnası ve damga vergisiyle aylık bordro."],
    c1a:["Gross monthly salary","Aylık brüt ücret"],
    c1b:["Cumulative tax base, prior months","Önceki ayların kümülatif vergi matrahı"],
+   c1y:["Full year, month by month","Tüm yıl, ay ay"],
    c1n:["The minimum wage exemption is applied as income tax and stamp duty computed on the gross minimum wage entered above.","Asgari ücret istisnası, yukarıda girilen brüt asgari ücret üzerinden hesaplanan gelir vergisi ve damga vergisi olarak uygulanır."],
    c2h:["Salary, net to gross","Ücret, netten brüte"],
    c2s:["Solves for the gross that produces the net entered.","Girilen neti veren brütü çözer."],
@@ -251,10 +252,30 @@
     ]);
   }
 
+
+  function yearTable(gross,cum0){
+    var box=el("s_year"); if(!box)return;
+    if(gross<=0){box.innerHTML="";return;}
+    var M=lang==="tr"?["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
+                     :["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var H=lang==="tr"?["Ay","Brüt","SGK + işsizlik","GV matrahı","Kümülatif","Gelir vergisi","Damga","Net"]
+                     :["Month","Gross","SS + unemp.","Tax base","Cumulative","Income tax","Stamp","Net"];
+    var cum=cum0, T={g:0,s:0,m:0,gv:0,d:0,n:0}, h='<table class="ytab"><thead><tr>';
+    H.forEach(function(x){h+="<th>"+x+"</th>";}); h+="</tr></thead><tbody>";
+    for(var i=0;i<12;i++){
+      var p=payroll(gross,cum), gvNet=p.gv-p.exGv, dNet=p.dmg-p.exDmg;
+      h+="<tr><td>"+M[i]+"</td><td>"+f2(p.gross)+'</td><td class="neg">'+f2(p.sgk+p.iss)+"</td><td>"+f2(p.gvm)+"</td><td>"+f2(p.newCum)+'</td><td class="neg">'+f2(gvNet)+'</td><td class="neg">'+f2(dNet)+'</td><td class="net">'+f2(p.net)+"</td></tr>";
+      T.g+=p.gross;T.s+=p.sgk+p.iss;T.m+=p.gvm;T.gv+=gvNet;T.d+=dNet;T.n+=p.net;cum=p.newCum;
+    }
+    h+='<tr class="tot"><td>'+(lang==="tr"?"Yıllık toplam":"Annual total")+"</td><td>"+f2(T.g)+'</td><td class="neg">'+f2(T.s)+"</td><td>"+f2(T.m)+"</td><td>—</td><td class=\"neg\">"+f2(T.gv)+'</td><td class="neg">'+f2(T.d)+'</td><td class="net">'+f2(T.n)+"</td></tr></tbody></table>";
+    box.innerHTML=h;
+  }
+
   function calcG2N(){
-    var g=num(el("s_gross").value);
-    if(g<=0){el("s_res").innerHTML="";return;}
-    showPayroll("s_res",payroll(g,num(el("s_cum").value)));
+    var g=num(el("s_gross").value), c0=num(el("s_cum").value);
+    if(g<=0){el("s_res").innerHTML="";yearTable(0,0);return;}
+    showPayroll("s_res",payroll(g,c0));
+    yearTable(g,c0);
   }
   function calcN2G(){
     var want=num(el("n_net").value), cum=num(el("n_cum").value);
@@ -461,7 +482,7 @@
     lang=l;
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
      "pp1","pp2","pp3","pp4","pp5","pp6","pp7","pp8","pp9",
-     "c1h","c1s","c1a","c1b","c1n","c2h","c2s","c2a","c2b","c2n",
+     "c1h","c1s","c1a","c1b","c1y","c1n","c2h","c2s","c2a","c2b","c2n",
      "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3p","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
      "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8n","parNote"].forEach(function(id){
