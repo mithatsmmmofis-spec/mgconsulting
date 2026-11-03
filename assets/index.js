@@ -11,7 +11,7 @@
   var nodes=Array.prototype.slice.call(document.querySelectorAll("[data-tr]"));
   nodes.forEach(function(n){n.setAttribute("data-en",n.textContent);});
   var ph=document.getElementById("q");
-  var phEN=ph.getAttribute("placeholder"), phTR=ph.getAttribute("data-trph");
+  var phEN=ph?ph.getAttribute("placeholder"):"", phTR=ph?ph.getAttribute("data-trph"):"";
   var bEN=document.getElementById("btnEN"), bTR=document.getElementById("btnTR");
   var lang="en";
 
@@ -30,8 +30,8 @@
     "2022":"Text in force for 2022. Later amendments are listed comparatively."
   };
   var yr=document.getElementById("yr"), ym=document.getElementById("yrmsg");
-  function updYear(){ym.textContent=(lang==="tr"?noteTR:noteEN)[yr.value]||"";}
-  yr.addEventListener("change",updYear);
+  function updYear(){if(yr&&ym)ym.textContent=(lang==="tr"?noteTR:noteEN)[yr.value]||"";}
+  if(yr)yr.addEventListener("change",updYear);
 
   function apply(l){
     lang=l;
@@ -39,7 +39,7 @@
       var v=l==="tr"?n.getAttribute("data-tr"):n.getAttribute("data-en");
       if(v!=null)n.textContent=v;
     });
-    ph.setAttribute("placeholder",l==="tr"?phTR:phEN);
+    if(ph)ph.setAttribute("placeholder",l==="tr"?phTR:phEN);
     bEN.setAttribute("aria-pressed",l==="en"?"true":"false");
     bTR.setAttribute("aria-pressed",l==="tr"?"true":"false");
     root.setAttribute("lang",l);
@@ -187,16 +187,18 @@
     setBusy(false);log.scrollTop=log.scrollHeight;
   }
 
+  if(sendBtn&&qEl&&starters&&log){
   sendBtn.addEventListener("click",function(){ask(qEl.value);});
   qEl.addEventListener("keydown",function(e){if(e.key==="Enter"&&(e.metaKey||e.ctrlKey)){e.preventDefault();ask(qEl.value);}});
   Array.prototype.forEach.call(starters.querySelectorAll("button"),function(b){
     b.addEventListener("click",function(){ask(b.textContent);});
   });
 
-  function off(){stat.textContent=lang==="tr"?"Kullanılamıyor":"Unavailable";statBadge.className="badge seal";}
+  function off(){if(stat)stat.textContent=lang==="tr"?"Kullanılamıyor":"Unavailable";if(statBadge)statBadge.className="badge seal";}
   if(window.claude&&window.claude.use){
     window.claude.use("sample").then(function(s){if(s){sampleFn=s;}else off();},off);
   }else off();
+  }
 
   apply(location.hash.replace("#","").toLowerCase()==="tr"?"tr":"en");
 })();
