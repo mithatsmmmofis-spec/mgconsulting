@@ -158,7 +158,14 @@ export default {
     if (origin !== allowed) {
       return json(403, { error: "origin_not_allowed" }, allowed);
     }
-    if (!env.ANTHROPIC_API_KEY) {
+    // Anahtar ya duz Secret (string) ya da Secrets Store baglantisi (get() metodu) olarak gelir.
+    let apiKey = "";
+    try {
+      const k = env.ANTHROPIC_API_KEY;
+      if (typeof k === "string") apiKey = k;
+      else if (k && typeof k.get === "function") apiKey = await k.get();
+    } catch (e) { apiKey = ""; }
+    if (!apiKey) {
       return json(503, { error: "not_configured" }, allowed);
     }
     const ip = request.headers.get("CF-Connecting-IP") || "0";
@@ -187,7 +194,7 @@ export default {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": env.ANTHROPIC_API_KEY,
+          "x-api-key": apiKey,
           "anthropic-version": API_VERSION,
           "anthropic-beta": "server-side-fallback-2026-07-01",
         },
