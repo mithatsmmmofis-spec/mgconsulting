@@ -44,15 +44,21 @@
    c3a:["Date of hire","İşe giriş tarihi"],
    c3b:["Date of leaving","Çıkış tarihi"],
    c3c:["Gross monthly wage","Brüt aylık ücret"],
-   c3add:["Regular, recurring benefits are added to the severance base. Enter monthly amounts; leave blank if none. One-off items such as overtime or performance bonuses are not added.","Düzenli ve sürekli ödenen yan haklar kıdem tazminatına esas ücrete eklenir. Aylık tutarları yazın; yoksa boş bırakın. Fazla mesai, performans primi gibi arızi ödemeler eklenmez."],
+   c3add:["Regular, recurring benefits are added to the severance base and each is shown separately in the result. Enter monthly amounts; leave blank if none. One-off items such as overtime are not added.","Düzenli ve sürekli ödenen yan haklar kıdem tazminatına esas ücrete eklenir ve sonuçta her biri ayrı satırda gösterilir. Aylık tutarları yazın; yoksa boş bırakın. Fazla mesai gibi arızi ödemeler eklenmez."],
    c3d:["Annual bonus total (one twelfth is added)","Yıllık ikramiye toplamı (on ikide biri eklenir)"],
    c3e:["Meal allowance, monthly","Yemek yardımı, aylık"],
    c3f:["Transport allowance, monthly","Yol yardımı, aylık"],
-   c3g:["Other regular benefits, monthly (fuel, clothing, housing)","Diğer düzenli yardımlar, aylık (yakacak, giyim, konut)"],
+   c3g:["Other regular benefits, monthly (fuel, clothing, housing, insurance)","Diğer düzenli yardımlar, aylık (yakacak, giyim, konut, sigorta)"],
    rBase:["Gross wage","Brüt ücret"],
    rCap:["Exceeds the ceiling; ceiling applied","Tavanı aşıyor; tavan uygulandı"],
    rNoCap:["Severance ceiling not set for this period; computed without a cap","Bu dönem için kıdem tavanı tanımlı değil; tavansız hesaplandı"],
    rAdds:["Benefits added","Eklenen yan haklar"],
+   rBonus:["Bonus, one twelfth of annual","İkramiye payı (yıllık ÷ 12)"],
+   rPrim:["Regular premium","Düzenli prim"],
+   rMeal:["Meal allowance","Yemek yardımı"],
+   rTr:["Transport allowance","Yol yardımı"],
+   rOth:["Other regular benefits","Diğer düzenli yardımlar"],
+   c3p:["Regular premium, monthly","Düzenli prim, aylık"],
    rGiy:["Severance base, monthly","Kıdeme esas aylık ücret (giydirilmiş)"],
    c3n:["Severance is subject to stamp duty only. Notice pay is subject to income tax and stamp duty; the income tax shown uses the top band entered and should be checked against the cumulative base.","Kıdem tazminatından yalnızca damga vergisi kesilir. İhbar tazminatı gelir vergisi ve damga vergisine tabidir; gösterilen gelir vergisi girilen en üst dilimi kullanır ve kümülatif matraha göre kontrol edilmelidir."],
    c4h:["Default surcharge","Gecikme zammı"],
@@ -273,7 +279,9 @@
   function calcKidem(){
     var a=el("k_start").value, b=el("k_end").value, base=num(el("k_wage").value);
     if(!a||!b||base<=0){el("k_res").innerHTML="";return;}
-    var adds=num(el("k_bonus").value)/12+num(el("k_meal").value)+num(el("k_transport").value)+num(el("k_other").value);
+    var aBonus=num(el("k_bonus").value)/12, aPrim=num(el("k_prim").value), aMeal=num(el("k_meal").value),
+        aTr=num(el("k_transport").value), aOth=num(el("k_other").value);
+    var adds=aBonus+aPrim+aMeal+aTr+aOth;
     var w=base+adds;
     var d1=new Date(a), d2=new Date(b);
     var days=Math.round((d2-d1)/86400000);
@@ -289,8 +297,12 @@
     var ihbNet=ihb-ihb*topRate-ihb*dmgR;
     rows("k_res",[
       {k:L("rBase"),v:f2(base)},
-      adds>0?{k:L("rAdds"),v:"+"+f2(adds)}:null,
-      {k:L("rGiy"),v:f2(w)},
+      aBonus>0?{k:L("rBonus"),v:"+"+f2(aBonus)}:null,
+      aPrim>0?{k:L("rPrim"),v:"+"+f2(aPrim)}:null,
+      aMeal>0?{k:L("rMeal"),v:"+"+f2(aMeal)}:null,
+      aTr>0?{k:L("rTr"),v:"+"+f2(aTr)}:null,
+      aOth>0?{k:L("rOth"),v:"+"+f2(aOth)}:null,
+      {k:L("rGiy"),v:f2(w),tot:1},
       capped?{k:L("rCap"),v:f2(tav),neg:1}:null,
       tav<=0?{k:L("rNoCap"),v:"—"}:null,
       {k:L("rSen"),v:Math.floor(days/365)+" "+L("yrs")+" "+Math.floor((days%365)/30)+" "+L("mos")+" "+days%365%30+" "+L("dys")},
@@ -395,7 +407,7 @@
 
   function runAll(){calcG2N();calcN2G();calcKidem();calcGec();calcDl();calcAmo();calcWc();calcCar();}
 
-  ["s_gross","s_cum","n_net","n_cum","k_start","k_end","k_wage","k_bonus","k_meal","k_transport","k_other","g_due","g_pay","g_amt",
+  ["s_gross","s_cum","n_net","n_cum","k_start","k_end","k_wage","k_bonus","k_prim","k_meal","k_transport","k_other","g_due","g_pay","g_amt",
    "d_start","d_kind","d_hol","a_cost","a_life","a_method","a_months",
    "w_sales","w_cogs","w_ar","w_inv","w_ap","b_net","b_vat"].concat(PIDS).forEach(function(id){
     var e=el(id);if(e)e.addEventListener("input",runAll);
@@ -428,7 +440,7 @@
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
      "pp1","pp2","pp3","pp4","pp5","pp6","pp7","pp8","pp9",
      "c1h","c1s","c1a","c1b","c1n","c2h","c2s","c2a","c2b","c2n",
-     "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
+     "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3p","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
      "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8n","parNote"].forEach(function(id){
       var e=el(id);if(e)e.textContent=L(id);
