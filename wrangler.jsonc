@@ -1,6 +1,6 @@
 {
   // MG Asistan arka ucu. "Deploy to Cloudflare" baglantisi bu dosyayi okur.
-  "name": "mg-asistan",
+  "name": "mgconsulting",
   "main": "worker/worker.js",
   "compatibility_date": "2026-10-01",
   "vars": { "ALLOWED_ORIGIN": "https://www.mgconsultingtr.com", "MODEL": "claude-opus-5-5" }
