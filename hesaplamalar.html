@@ -61,11 +61,11 @@
    <label><span id="pp2">Employee social security rate</span><input id="pSgk" value="14" inputmode="decimal"></label>
    <label><span id="pp3">Employee unemployment rate</span><input id="pIss" value="1" inputmode="decimal"></label>
    <label><span id="pp4">Stamp duty rate on wages, per thousand</span><input id="pDmg" value="7.59" inputmode="decimal"></label>
-   <label><span id="pp5">Social security base, lower limit, monthly</span><input id="pTaban" placeholder="0" inputmode="decimal"></label>
-   <label><span id="pp6">Social security base, upper limit, monthly</span><input id="pTavan" placeholder="0" inputmode="decimal"></label>
-   <label><span id="pp7">Gross minimum wage, monthly</span><input id="pAsg" placeholder="0" inputmode="decimal"></label>
+   <label><span id="pp5">Social security base, lower limit, monthly</span><input id="pTaban" value="33.030" inputmode="decimal"></label>
+   <label><span id="pp6">Social security base, upper limit, monthly</span><input id="pTavan" value="247.725" inputmode="decimal"></label>
+   <label><span id="pp7">Gross minimum wage, monthly</span><input id="pAsg" value="33.030" inputmode="decimal"></label>
    <label><span id="pp8">Severance pay ceiling</span><input id="pKidTavan" placeholder="0" inputmode="decimal"></label>
-   <label><span id="pp9">Default surcharge, monthly rate</span><input id="pGec" placeholder="0" inputmode="decimal"></label>
+   <label><span id="pp9">Default surcharge, monthly rate</span><input id="pGec" value="4,5" inputmode="decimal"></label>
   </div>
   <div class="brk tw">
    <table>
@@ -73,6 +73,7 @@
     <tbody id="brkBody"></tbody>
    </table>
   </div>
+   <p class="hint" id="parNote" style="margin-top:12px">Defaults are pre-filled for the 2026 period (minimum wage, social security limits, wage income tax bands, default surcharge rate) and were last checked on 03.11.2026. The severance ceiling is left empty. Confirm against the legislation in force before relying on a result.</p>
   <div class="pacts">
    <button class="btn p" id="save" type="button">Save parameters</button>
    <button class="btn s" id="reset" type="button">Reset</button>

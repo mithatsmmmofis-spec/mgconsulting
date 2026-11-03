@@ -140,7 +140,7 @@
   function el(id){return document.getElementById(id);}
 
   /* ---- brackets ---- */
-  var BR=[{up:"",r:15},{up:"",r:20},{up:"",r:27},{up:"",r:35},{up:"",r:40}];
+  var BR=[{up:"198000",r:15},{up:"414000",r:20},{up:"1500000",r:27},{up:"7300000",r:35},{up:"",r:40}];
   function drawBrackets(){
     var b=el("brkBody"),h="";
     BR.forEach(function(x,i){
@@ -388,7 +388,8 @@
     try{localStorage.removeItem("mg-params");}catch(e){}
     PIDS.forEach(function(i){if(i!=="pYear")el(i).value="";});
     el("pSgk").value="14";el("pIss").value="1";el("pDmg").value="7.59";
-    BR=[{up:"",r:15},{up:"",r:20},{up:"",r:27},{up:"",r:35},{up:"",r:40}];
+    el("pAsg").value="33.030";el("pTaban").value="33.030";el("pTavan").value="247.725";el("pGec").value="4,5";
+    BR=[{up:"198000",r:15},{up:"414000",r:20},{up:"1500000",r:27},{up:"7300000",r:35},{up:"",r:40}];
     drawBrackets();runAll();
   });
 
@@ -411,7 +412,7 @@
      "c1h","c1s","c1a","c1b","c1n","c2h","c2s","c2a","c2b","c2n",
      "c3h","c3s","c3a","c3b","c3c","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
-     "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8n"].forEach(function(id){
+     "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8n","parNote"].forEach(function(id){
       var e=el(id);if(e)e.textContent=L(id);
     });
     el("save").textContent=L("save");
