@@ -11,10 +11,10 @@
   var UI={
    kick:["Tools","Araçlar"],
    h1:["Calculations","Hesaplamalar"],
-   intro:["Every calculation uses the parameters you set below, so the figures are never out of date and the basis is always visible. Set the period once; the panel is remembered on this device.","Her hesaplama aşağıda belirlediğiniz parametreleri kullanır; böylece tutarlar hiçbir zaman eskimez ve dayanak her zaman görünür olur. Dönemi bir kez ayarlayın; panel bu cihazda hatırlanır."],
+   intro:["Every calculation uses the period parameters shown below, which the firm keeps current. The basis and the date of the last check are always visible.","Her hesaplama, aşağıda gösterilen ve büro tarafından güncel tutulan dönem parametrelerini kullanır. Dayanak ve son kontrol tarihi her zaman görünür."],
    utilLabel:["Calculations","Hesaplamalar"],
    parH:["Period parameters","Dönem parametreleri"],
-   parD:["These values change every year and are not pre-filled. Enter them from the legislation in force for the period, then the calculators below are accurate.","Bu değerler her yıl değişir ve önceden doldurulmaz. İlgili dönemde yürürlükteki mevzuattan girin; aşağıdaki hesaplamalar o zaman doğru çalışır."],
+   parD:["Maintained by the firm and updated when the legislation changes. Visitors cannot alter them; every calculation below uses exactly these values.","Büro tarafından tutulur ve mevzuat değiştiğinde güncellenir. Ziyaretçi değiştiremez; aşağıdaki her hesaplama tam olarak bu değerleri kullanır."],
    pp1:["Period","Dönem"],
    pp2:["Employee social security rate, per cent","SGK işçi payı oranı, yüzde"],
    pp3:["Employee unemployment rate, per cent","İşsizlik sigortası işçi payı, yüzde"],
@@ -145,8 +145,8 @@
     var b=el("brkBody"),h="";
     BR.forEach(function(x,i){
       var last=i===BR.length-1;
-      h+='<tr><td><input data-br="'+i+'" data-f="up" value="'+(x.up||"")+'" inputmode="decimal" placeholder="'+(last?"∞":"0")+'"'+(last?" disabled":"")+'></td>'+
-         '<td><input data-br="'+i+'" data-f="r" value="'+x.r+'" inputmode="decimal" style="max-width:88px"> %</td></tr>';
+      h+='<tr><td><input data-br="'+i+'" data-f="up" value="'+(x.up||"")+'" inputmode="decimal" placeholder="'+(last?"∞":"0")+'"'+(last?" disabled":" readonly")+'></td>'+
+         '<td><input data-br="'+i+'" data-f="r" value="'+x.r+'" inputmode="decimal" style="max-width:88px" readonly> %</td></tr>';
     });
     b.innerHTML=h;
     Array.prototype.forEach.call(b.querySelectorAll("input"),function(inp){
@@ -431,7 +431,7 @@
     if(h==="tr")applyLang("tr"); else if(h==="en")applyLang("en");
   });
 
-  loadP();drawBrackets();
+  drawBrackets();
   applyLang(location.hash.replace("#","").toLowerCase()==="tr"?"tr":"en");
 })();
 (function(){
