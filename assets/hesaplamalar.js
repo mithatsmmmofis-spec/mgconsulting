@@ -435,6 +435,28 @@
     if(cur)m.value=cur;
   }
 
+
+  /* ---- tek hesaplayici goster ---- */
+  var cards=[].slice.call(document.querySelectorAll(".cards .card")), cnav=el("calcnav"), curCalc=0;
+  try{curCalc=parseInt(localStorage.getItem("mg-calc")||"0",10)||0;}catch(e){}
+  function showCalc(i){
+    curCalc=i;
+    cards.forEach(function(c,k){c.hidden=(k!==i);});
+    [].forEach.call(cnav.children,function(b,k){b.setAttribute("aria-pressed",k===i?"true":"false");});
+    try{localStorage.setItem("mg-calc",String(i));}catch(e){}
+  }
+  function buildCalcNav(){
+    if(!cnav)return;
+    cnav.innerHTML="";
+    cards.forEach(function(c,k){
+      var b=document.createElement("button");b.type="button";b.setAttribute("role","tab");
+      b.textContent=c.querySelector("h3").textContent;
+      b.addEventListener("click",function(){showCalc(k);});
+      cnav.appendChild(b);
+    });
+    showCalc(Math.min(curCalc,cards.length-1));
+  }
+
   function applyLang(l){
     lang=l;
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
@@ -452,7 +474,7 @@
     el("btnEN").setAttribute("aria-pressed",l==="en"?"true":"false");
     el("btnTR").setAttribute("aria-pressed",l==="tr"?"true":"false");
     root.setAttribute("lang",l);
-    fillSelects();runAll();
+    fillSelects();buildCalcNav();runAll();
   }
   el("btnTR").addEventListener("click",function(){location.hash="tr";applyLang("tr");});
   el("btnEN").addEventListener("click",function(){location.hash="en";applyLang("en");});
