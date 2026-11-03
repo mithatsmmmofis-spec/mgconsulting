@@ -1,5 +1,5 @@
 name: MG Asistan canli test
-# tetik 5
+# tetik 6
 on:
   workflow_dispatch:
   push:
