@@ -200,7 +200,7 @@
   }else off();
   }
 
-  apply(location.hash.replace("#","").toLowerCase()==="tr"?"tr":"en");
+  apply(location.hash.replace("#","").toLowerCase()==="en"?"en":"tr");
 })();
 (function(){
   var b=document.getElementById("ckBar"),k="mg-ck";

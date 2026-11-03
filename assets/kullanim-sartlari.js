@@ -25,7 +25,7 @@
     var h=location.hash.replace("#","").toLowerCase();
     if(h==="tr")apply("tr");else if(h==="en")apply("en");
   });
-  apply(location.hash.replace("#","").toLowerCase()==="tr"?"tr":"en");
+  apply(location.hash.replace("#","").toLowerCase()==="en"?"en":"tr");
 })();
 (function(){
   var b=document.getElementById("ckBar"),k="mg-ck";

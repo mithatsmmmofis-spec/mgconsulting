@@ -512,7 +512,7 @@
     if(h==="tr")applyLang("tr"); else if(h==="en")applyLang("en");
   });
 
-  applyLang(location.hash.replace("#","").toLowerCase()==="tr"?"tr":"en");
+  applyLang(location.hash.replace("#","").toLowerCase()==="en"?"en":"tr");
   document.getElementById("sample").click();
 })();
 (function(){
