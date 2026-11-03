@@ -266,10 +266,10 @@
     if(gross<=0){box.innerHTML="";return;}
     var M=lang==="tr"?["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
                      :["January","February","March","April","May","June","July","August","September","October","November","December"];
-    var H=lang==="tr"?["Ay","Brüt","SGK işçi","İşsizlik işçi","GV matrahı","Kümülatif matrah","Hesaplanan GV","Asgari ücret GV istisnası","Ödenecek GV","Hesaplanan DV","Asgari ücret DV istisnası","Ödenecek DV","Toplam kesinti","Net","SGK işveren","İşsizlik işveren","İşverene maliyet"]
-                     :["Month","Gross","SS employee","Unemp. employee","Tax base","Cumulative base","Income tax computed","Min. wage IT exemption","Income tax payable","Stamp duty computed","Min. wage SD exemption","Stamp duty payable","Total deductions","Net","SS employer","Unemp. employer","Employer cost"];
+    var H=lang==="tr"?["Ay","Brüt","SGK işçi","İşsizlik işçi","GV matrahı","Kümülatif","Hesaplanan GV","AÜ GV istisnası","Ödenecek GV","Hesaplanan DV","AÜ DV istisnası","Ödenecek DV","Kesinti toplamı","Net","SGK işveren","İşsizlik işveren","İşveren maliyeti"]
+                     :["Month","Gross","SS empl.","Unemp. empl.","Tax base","Cumulative","IT computed","MW IT exempt.","IT payable","SD computed","MW SD exempt.","SD payable","Deductions","Net","SS employer","Unemp. employer","Employer cost"];
     var cum=cum0, K=["g","s","i","m","gv","xg","gvn","d","xd","dn","k","n","se","ie","ct"], T={}; K.forEach(function(k){T[k]=0;});
-    var h='<table class="ytab"><thead><tr>';
+    var h='<p class="yhint">'+(lang==="tr"?"Tablo geniştir: tüm sütunları görmek için sağa kaydırın. AÜ = asgari ücret, GV = gelir vergisi, DV = damga vergisi.":"The table is wide: scroll right for all columns. MW = minimum wage, IT = income tax, SD = stamp duty.")+'</p><table class="ytab"><thead><tr>';
     H.forEach(function(x){h+="<th>"+x+"</th>";}); h+="</tr></thead><tbody>";
     function row(name,v,cls){
       return "<tr"+(cls?' class="'+cls+'"':"")+"><td>"+name+"</td><td>"+f2(v.g)+'</td><td class="neg">'+f2(v.s)+'</td><td class="neg">'+f2(v.i)+"</td><td>"+f2(v.m)+"</td><td>"+(v.c===null?"—":f2(v.c))+"</td><td>"+f2(v.gv)+'</td><td class="pos">'+f2(v.xg)+'</td><td class="neg">'+f2(v.gvn)+"</td><td>"+f2(v.d)+'</td><td class="pos">'+f2(v.xd)+'</td><td class="neg">'+f2(v.dn)+'</td><td class="neg">'+f2(v.k)+'</td><td class="net">'+f2(v.n)+'</td><td class="neg">'+f2(v.se)+'</td><td class="neg">'+f2(v.ie)+'</td><td class="cost">'+f2(v.ct)+"</td></tr>";
