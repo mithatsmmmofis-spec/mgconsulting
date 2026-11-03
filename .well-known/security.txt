@@ -1,0 +1,3 @@
+Contact: mailto:info@mgconsultingtr.com
+Preferred-Languages: tr, en
+Canonical: https://www.mgconsultingtr.com/.well-known/security.txt

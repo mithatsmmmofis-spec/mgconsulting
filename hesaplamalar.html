@@ -1,0 +1,231 @@
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Calculations</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self'">
+<meta name="description" content="Bordro, kıdem ve ihbar tazminatı, gecikme zammı, süre hesabı, amortisman, nakit dönüşüm süresi ve binek oto gider kısıtlaması hesaplayıcıları.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.mgconsultingtr.com/hesaplamalar.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MG Consulting">
+<meta property="og:title" content="Hesaplamalar — MG Consulting">
+<meta property="og:description" content="Bordro, kıdem ve ihbar tazminatı, gecikme zammı, süre hesabı, amortisman, nakit dönüşüm süresi ve binek oto gider kısıtlaması hesaplayıcıları.">
+<meta property="og:url" content="https://www.mgconsultingtr.com/hesaplamalar.html">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/hesaplamalar.css">
+
+<div class="util">
+ <div class="wrap">
+  <a href="#top"><strong>MG Consulting</strong></a>
+  <span style="opacity:.3">|</span>
+  <span id="utilLabel">Calculations</span>
+  <span class="right">
+   <button id="themeBtn">Theme</button>
+   <button id="btnEN" aria-pressed="true">EN</button>
+   <button id="btnTR" aria-pressed="false">TR</button>
+  </span>
+ </div>
+</div>
+
+<header id="top">
+ <div class="wrap">
+  <span class="kicker" id="kick">Tools</span>
+  <h1 id="h1">Calculations</h1>
+  <p id="intro">Every calculation uses the parameters you set below, so the figures are never out of date and the basis is always visible. Set the period once; the panel is remembered on this device.</p>
+ </div>
+</header>
+
+ <div class="secstrip">
+  <div class="wrap">
+   <div class="si">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 4.5 5.8v5.4c0 4.6 3.1 8.5 7.5 9.8 4.4-1.3 7.5-5.2 7.5-9.8V5.8z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.6 12.1l2.4 2.4 4.4-4.9" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+    <span><b data-tr="Şifreli bağlantı">Encrypted connection</b><i data-tr="Site HTTPS üzerinden sunulur, trafik şifrelidir.">The site is served over HTTPS; traffic is encrypted.</i></span>
+   </div>
+   <div class="si">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="9.5" rx="1.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10.5V7.6a4 4 0 0 1 8 0v2.9" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+    <span><b data-tr="Veriniz cihazınızdan çıkmaz">Your data stays on your device</b><i data-tr="Hesaplama ve inceleme araçları tarayıcınızda çalışır; yüklenen dosya sunucuya gitmez.">The calculation and review tools run in your browser; files loaded are never sent to a server.</i></span>
+   </div>
+   <div class="si">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.8 12S6.4 5.8 12 5.8 21.2 12 21.2 12 17.6 18.2 12 18.2 2.8 12 2.8 12z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 20 20 4" stroke="currentColor" stroke-width="1.7"/></svg>
+    <span><b data-tr="İzleme yok">No tracking</b><i data-tr="Reklam veya analiz çerezi, üçüncü taraf izleme kodu kullanılmaz.">No advertising or analytics cookies, and no third-party tracking.</i></span>
+   </div>
+  </div>
+ </div>
+<div class="par">
+ <div class="wrap">
+  <h2 id="parH">Period parameters</h2>
+  <p class="d" id="parD">These values change every year and are not pre-filled. Enter them from the legislation in force for the period, then the calculators below are accurate.</p>
+  <div class="pg">
+   <label><span id="pp1">Period</span><input id="pYear" value="2026" inputmode="numeric"></label>
+   <label><span id="pp2">Employee social security rate</span><input id="pSgk" value="14" inputmode="decimal"></label>
+   <label><span id="pp3">Employee unemployment rate</span><input id="pIss" value="1" inputmode="decimal"></label>
+   <label><span id="pp4">Stamp duty rate on wages, per thousand</span><input id="pDmg" value="7.59" inputmode="decimal"></label>
+   <label><span id="pp5">Social security base, lower limit, monthly</span><input id="pTaban" placeholder="0" inputmode="decimal"></label>
+   <label><span id="pp6">Social security base, upper limit, monthly</span><input id="pTavan" placeholder="0" inputmode="decimal"></label>
+   <label><span id="pp7">Gross minimum wage, monthly</span><input id="pAsg" placeholder="0" inputmode="decimal"></label>
+   <label><span id="pp8">Severance pay ceiling</span><input id="pKidTavan" placeholder="0" inputmode="decimal"></label>
+   <label><span id="pp9">Default surcharge, monthly rate</span><input id="pGec" placeholder="0" inputmode="decimal"></label>
+  </div>
+  <div class="brk tw">
+   <table>
+    <thead><tr><th id="bh1">Income tax band, cumulative base up to</th><th id="bh2">Rate</th></tr></thead>
+    <tbody id="brkBody"></tbody>
+   </table>
+  </div>
+  <div class="pacts">
+   <button class="btn p" id="save" type="button">Save parameters</button>
+   <button class="btn s" id="reset" type="button">Reset</button>
+   <span class="saved" id="savedMsg" hidden></span>
+  </div>
+ </div>
+</div>
+
+<main>
+ <div class="wrap cards">
+
+  <section class="card">
+   <h3 id="c1h">Salary, gross to net</h3>
+   <p class="sub" id="c1s">Monthly payroll with cumulative base, minimum wage exemption and stamp duty.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c1a">Gross monthly salary</span><input id="s_gross" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c1b">Cumulative tax base, prior months</span><input id="s_cum" inputmode="decimal" placeholder="0"></label>
+    </div>
+    <div class="res" id="s_res"></div>
+    <p class="note" id="c1n">The minimum wage exemption is applied as income tax and stamp duty computed on the gross minimum wage entered above.</p>
+   </div>
+  </section>
+
+  <section class="card">
+   <h3 id="c2h">Salary, net to gross</h3>
+   <p class="sub" id="c2s">Solves for the gross that produces the net entered.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c2a">Target net salary</span><input id="n_net" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c2b">Cumulative tax base, prior months</span><input id="n_cum" inputmode="decimal" placeholder="0"></label>
+    </div>
+    <div class="res" id="n_res"></div>
+    <p class="note" id="c2n">Solved numerically against the same payroll rules, to the nearest kurus.</p>
+   </div>
+  </section>
+
+  <section class="card">
+   <h3 id="c3h">Severance and notice pay</h3>
+   <p class="sub" id="c3s">Notice periods are those set in the Labour Law; the severance ceiling comes from the panel.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c3a">Date of hire</span><input id="k_start" type="date"></label>
+     <label><span id="c3b">Date of leaving</span><input id="k_end" type="date"></label>
+    </div>
+    <label><span id="c3c">Gross monthly wage including benefits</span><input id="k_wage" inputmode="decimal" placeholder="0"></label>
+    <div class="res" id="k_res"></div>
+    <p class="note" id="c3n">Severance is subject to stamp duty only. Notice pay is subject to income tax and stamp duty; the income tax shown uses the top band entered and should be checked against the cumulative base.</p>
+   </div>
+  </section>
+
+  <section class="card">
+   <h3 id="c4h">Default surcharge</h3>
+   <p class="sub" id="c4s">Months are charged in full and part months by day, as the collection law provides.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c4a">Due date</span><input id="g_due" type="date"></label>
+     <label><span id="c4b">Date of payment</span><input id="g_pay" type="date"></label>
+    </div>
+    <label><span id="c4c">Principal amount</span><input id="g_amt" inputmode="decimal" placeholder="0"></label>
+    <div class="res" id="g_res"></div>
+    <p class="note" id="c4n">Uses the monthly rate from the panel. Where the rate changed during the period, run each sub-period separately.</p>
+   </div>
+  </section>
+
+  <section class="card">
+   <h3 id="c5h">Deadline calculator</h3>
+   <p class="sub" id="c5s">Adds the statutory period and carries a weekend ending to the next working day.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c5a">Start date, notification</span><input id="d_start" type="date"></label>
+     <label><span id="c5b">Period</span><select id="d_kind"></select></label>
+    </div>
+    <label><span id="c5c">Public holidays in the period, comma separated, YYYY-MM-DD</span><input id="d_hol" placeholder="2026-04-23, 2026-05-01"></label>
+    <div class="res" id="d_res"></div>
+    <p class="note" id="c5n">Periods run from the day after notification. Confirm the holiday list for the year; it is not pre-filled.</p>
+   </div>
+  </section>
+
+  <section class="card">
+   <h3 id="c6h">Depreciation</h3>
+   <p class="sub" id="c6s">Straight line, declining balance and pro rata in the year of acquisition.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c6a">Cost</span><input id="a_cost" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c6b">Useful life, years</span><input id="a_life" inputmode="decimal" placeholder="5"></label>
+    </div>
+    <div class="two">
+     <label><span id="c6c">Method</span><select id="a_method"></select></label>
+     <label><span id="c6d">Months in the first year</span><input id="a_months" inputmode="numeric" placeholder="12"></label>
+    </div>
+    <div class="res" id="a_res"></div>
+    <p class="note" id="c6n">Declining balance uses twice the straight-line rate, capped at 50 per cent. Pro rata applies to passenger cars.</p>
+   </div>
+  </section>
+
+  <section class="card">
+   <h3 id="c7h">Cash conversion cycle</h3>
+   <p class="sub" id="c7s">Receivable, inventory and payable days, and the working capital they tie up.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c7a">Annual net sales</span><input id="w_sales" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c7b">Annual cost of sales</span><input id="w_cogs" inputmode="decimal" placeholder="0"></label>
+    </div>
+    <div class="two">
+     <label><span id="c7c">Average trade receivables</span><input id="w_ar" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c7d">Average inventory</span><input id="w_inv" inputmode="decimal" placeholder="0"></label>
+    </div>
+    <label><span id="c7e">Average trade payables</span><input id="w_ap" inputmode="decimal" placeholder="0"></label>
+    <div class="res" id="w_res"></div>
+    <p class="note" id="c7n">Working capital requirement is the cycle expressed in days applied to daily cost of sales.</p>
+   </div>
+  </section>
+
+  <section class="card">
+   <h3 id="c8h">Passenger car expense restriction</h3>
+   <p class="sub" id="c8s">Splits running costs into the deductible and non-deductible portions, with the VAT effect.</p>
+   <div class="body">
+    <div class="two">
+     <label><span id="c8a">Expense, excluding VAT</span><input id="b_net" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c8b">VAT rate, per cent</span><input id="b_vat" value="20" inputmode="decimal"></label>
+    </div>
+    <div class="res" id="b_res"></div>
+    <p class="note" id="c8n">Seventy per cent is deductible. Whether the VAT on the non-deductible portion may be recovered is contested; it is shown separately here.</p>
+   </div>
+  </section>
+
+ </div>
+</main>
+
+<footer>
+ <div class="wrap">
+  <p id="f1"><strong>Basis.</strong> Rates and periods set directly in legislation are applied as such. Amounts indexed annually are taken only from the parameters panel; nothing is assumed.</p>
+  <p id="f2"><strong>Use.</strong> These are working calculations for professional use, not an assessment of any specific matter. Results are checked against the legislation in force before they are relied on.</p>
+ </div>
+</footer>
+
+
+
+
+<div style="background:#0A1F33;color:rgba(248,246,242,.72);font:400 12.5px/1.6 'Source Sans 3',system-ui,sans-serif">
+ <div style="max-width:1180px;margin:0 auto;padding:0 max(18px,env(safe-area-inset-left,0px)) 40px;display:grid;gap:9px">
+  <p style="margin:0;max-width:94ch"><strong style="color:#F8F6F2">MG Consulting</strong> · Cumhuriyet Mah. Hal Cad. No: 5, İç Kapı No: 18 · İncirliova / Aydın · +90 530 173 00 80 · info@mgconsultingtr.com</p>
+  <p style="margin:0;max-width:94ch">Bu sayfadaki bilgiler genel bilgilendirme amaçlıdır; mesleki hizmet, danışmanlık veya somut olaya ilişkin görüş niteliği taşımaz. Oran, had ve tutarlar ilgili dönem mevzuatından teyit edilmelidir.</p>
+  <p style="margin:0"><a href="/" style="color:#CBA45A;text-decoration:none">Ana sayfa</a> · <a href="kvkk.html" style="color:#CBA45A;text-decoration:none">Aydınlatma metni ve çerez politikası</a> · <a href="kullanim-sartlari.html" style="color:#CBA45A;text-decoration:none">Kullanım şartları</a></p>
+ </div>
+</div>
+
+<div id="ckBar" hidden style="position:fixed;left:0;right:0;bottom:0;z-index:70;background:#0A1F33;color:#F8F6F2;
+ padding:14px max(18px,env(safe-area-inset-left,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-right,0px));
+ font:400 13.5px/1.55 'Source Sans 3',system-ui,sans-serif;display:flex;gap:14px;align-items:center;flex-wrap:wrap;box-shadow:0 -8px 28px rgba(0,0,0,.25)">
+ <span id="ckTxt" style="flex:1;min-width:220px;opacity:.86">Bu sitede reklam veya izleme çerezi kullanılmaz. Yalnızca dil, tema ve hesaplama parametreleri gibi tercihler tarayıcınızda saklanır.</span>
+ <a href="kvkk.html" style="color:#CBA45A;font-weight:600;text-decoration:none;white-space:nowrap">Ayrıntı</a>
+ <button id="ckOk" type="button" style="font:600 13px 'Archivo',sans-serif;background:#F8F6F2;color:#0A1F33;border:0;padding:9px 18px;cursor:pointer;white-space:nowrap">Tamam</button>
+</div>
+<script src="assets/hesaplamalar.js"></script>
