@@ -150,10 +150,15 @@ main{padding-top:0!important}
 
 /* --- yillik bordro tablosu --- */
 .ysub{font-family:var(--font-display);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-top:18px}
-.ytab{border-collapse:collapse;width:100%;min-width:560px;font-size:12.5px;background:var(--surface);border:1px solid var(--rule);margin-top:8px}
+.ytab{border-collapse:collapse;width:100%;min-width:1500px;font-size:12.5px;background:var(--surface);border:1px solid var(--rule);margin-top:8px}
 .ytab th,.ytab td{padding:6px 9px;border-bottom:1px solid var(--rule);text-align:right;font-family:var(--font-data);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ytab th{font-family:var(--font-display);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:700;background:var(--bg-2)}
 .ytab td:first-child,.ytab th:first-child{text-align:left;font-family:var(--font-body)}
 .ytab tr.tot td{font-weight:600;background:var(--bg-2);border-top:2px solid var(--navy)}
 .ytab td.neg{color:var(--seal)}
 .ytab td.net{color:var(--ok);font-weight:600}
+.ytab td.pos{color:var(--ok)}
+.ytab td.cost{font-weight:600}
+.ytab td:first-child{position:sticky;left:0;background:var(--surface);z-index:1}
+.ytab tr.tot td:first-child{background:var(--bg-2)}
+.ytab th:first-child{position:sticky;left:0;z-index:2}

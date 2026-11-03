@@ -24,6 +24,9 @@
    pp7:["Gross minimum wage, monthly","Brüt asgari ücret, aylık"],
    pp8:["Severance pay ceiling, current period (selected by leaving date in the calculator)","Kıdem tazminatı tavanı, cari dönem (hesaplayıcı çıkış tarihine göre dönemi seçer)"],
    pp9:["Default surcharge, monthly rate, per cent","Gecikme zammı aylık oranı, yüzde"],
+   pp10:["Employer social security rate, per cent, after the 5510/81-ı point discount","SGK işveren payı, yüzde, 5510/81-ı puan indirimi düşülmüş"],
+   pp11:["Employer unemployment rate, per cent","İşsizlik sigortası işveren payı, yüzde"],
+   parNote:["Defaults are pre-filled for the 2026 period and were last checked on 03.11.2026. The severance ceiling is applied by period according to the leaving date. Confirm against the legislation in force before relying on a result.","Varsayılanlar 2026 dönemi için doldurulmuştur; son kontrol 03.11.2026. Kıdem tavanı çıkış tarihine göre dönem bazında uygulanır. Sonuca dayanmadan önce yürürlükteki mevzuatla teyit edin."],
    bh1:["Income tax band, cumulative base up to","Gelir vergisi dilimi, kümülatif matrah üst sınırı"],
    bh2:["Rate","Oran"],
    save:["Save parameters","Parametreleri kaydet"],
@@ -100,7 +103,7 @@
    needPar:["Enter the period parameters above.","Yukarıdan dönem parametrelerini girin."],
    /* result labels */
    rGross:["Gross","Brüt"], rSgk:["Social security, employee","SGK işçi payı"],
-   rIss:["Unemployment, employee","İşsizlik işçi payı"], rGvm:["Income tax base","Gelir vergisi matrahı"],
+   rIss:["Unemployment, employee","İşsizlik işçi payı"], rSgkIsv:["Social security, employer","SGK işveren payı"], rIssIsv:["Unemployment, employer","İşsizlik işveren payı"], rCost:["Total cost to employer","İşverene toplam maliyet"], rGvm:["Income tax base","Gelir vergisi matrahı"],
    rGv:["Income tax","Gelir vergisi"], rGvi:["Minimum wage exemption, income tax","Asgari ücret istisnası, gelir vergisi"],
    rDmg:["Stamp duty","Damga vergisi"], rDmgi:["Minimum wage exemption, stamp duty","Asgari ücret istisnası, damga vergisi"],
    rNet:["Net salary","Net ücret"], rCum:["New cumulative base","Yeni kümülatif matrah"],
@@ -188,7 +191,7 @@
   }
 
   /* ---- params ---- */
-  var PIDS=["pYear","pSgk","pIss","pDmg","pTaban","pTavan","pAsg","pKidTavan","pGec"];
+  var PIDS=["pYear","pSgk","pIss","pSgkIsv","pIssIsv","pDmg","pTaban","pTavan","pAsg","pKidTavan","pGec"];
   function P(id){return num(el(id).value);}
   function saveP(){
     try{
@@ -223,6 +226,7 @@
     if(taban>0)base=Math.max(base,taban);
     if(tavan>0)base=Math.min(base,tavan);
     var sgk=base*P("pSgk")/100, iss=base*P("pIss")/100;
+    var sgkIsv=base*P("pSgkIsv")/100, issIsv=base*P("pIssIsv")/100;
     var gvm=gross-sgk-iss;
     var gv=taxOn(cum+gvm)-taxOn(cum);
     var exGv=0;
@@ -236,7 +240,7 @@
     var dmg=gross*dmgR;
     var exDmg=asg>0?Math.min(dmg,asg*dmgR):0;
     var net=gross-sgk-iss-(gv-exGv)-(dmg-exDmg);
-    return {gross:gross,base:base,sgk:sgk,iss:iss,gvm:gvm,gv:gv,exGv:exGv,dmg:dmg,exDmg:exDmg,net:net,newCum:cum+gvm};
+    return {gross:gross,base:base,sgk:sgk,iss:iss,sgkIsv:sgkIsv,issIsv:issIsv,cost:gross+sgkIsv+issIsv,gvm:gvm,gv:gv,exGv:exGv,dmg:dmg,exDmg:exDmg,net:net,newCum:cum+gvm};
   }
   function showPayroll(target,p){
     rows(target,[
@@ -249,7 +253,10 @@
       {k:L("rDmg"),v:"-"+f2(p.dmg),neg:1},
       p.exDmg>0?{k:L("rDmgi"),v:"+"+f2(p.exDmg)}:null,
       {k:L("rNet"),v:f2(p.net),tot:1},
-      {k:L("rCum"),v:f2(p.newCum)}
+      {k:L("rCum"),v:f2(p.newCum)},
+      {k:L("rSgkIsv")+" ("+P("pSgkIsv")+"%)",v:f2(p.sgkIsv)},
+      {k:L("rIssIsv")+" ("+P("pIssIsv")+"%)",v:f2(p.issIsv)},
+      {k:L("rCost"),v:f2(p.cost),tot:1}
     ]);
   }
 
@@ -259,16 +266,23 @@
     if(gross<=0){box.innerHTML="";return;}
     var M=lang==="tr"?["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
                      :["January","February","March","April","May","June","July","August","September","October","November","December"];
-    var H=lang==="tr"?["Ay","Brüt","SGK + işsizlik","GV matrahı","Kümülatif","Gelir vergisi","Damga","Net"]
-                     :["Month","Gross","SS + unemp.","Tax base","Cumulative","Income tax","Stamp","Net"];
-    var cum=cum0, T={g:0,s:0,m:0,gv:0,d:0,n:0}, h='<table class="ytab"><thead><tr>';
+    var H=lang==="tr"?["Ay","Brüt","SGK işçi","İşsizlik işçi","GV matrahı","Kümülatif matrah","Hesaplanan GV","Asgari ücret GV istisnası","Ödenecek GV","Hesaplanan DV","Asgari ücret DV istisnası","Ödenecek DV","Toplam kesinti","Net","SGK işveren","İşsizlik işveren","İşverene maliyet"]
+                     :["Month","Gross","SS employee","Unemp. employee","Tax base","Cumulative base","Income tax computed","Min. wage IT exemption","Income tax payable","Stamp duty computed","Min. wage SD exemption","Stamp duty payable","Total deductions","Net","SS employer","Unemp. employer","Employer cost"];
+    var cum=cum0, K=["g","s","i","m","gv","xg","gvn","d","xd","dn","k","n","se","ie","ct"], T={}; K.forEach(function(k){T[k]=0;});
+    var h='<table class="ytab"><thead><tr>';
     H.forEach(function(x){h+="<th>"+x+"</th>";}); h+="</tr></thead><tbody>";
-    for(var i=0;i<12;i++){
-      var p=payroll(gross,cum), gvNet=p.gv-p.exGv, dNet=p.dmg-p.exDmg;
-      h+="<tr><td>"+M[i]+"</td><td>"+f2(p.gross)+'</td><td class="neg">'+f2(p.sgk+p.iss)+"</td><td>"+f2(p.gvm)+"</td><td>"+f2(p.newCum)+'</td><td class="neg">'+f2(gvNet)+'</td><td class="neg">'+f2(dNet)+'</td><td class="net">'+f2(p.net)+"</td></tr>";
-      T.g+=p.gross;T.s+=p.sgk+p.iss;T.m+=p.gvm;T.gv+=gvNet;T.d+=dNet;T.n+=p.net;cum=p.newCum;
+    function row(name,v,cls){
+      return "<tr"+(cls?' class="'+cls+'"':"")+"><td>"+name+"</td><td>"+f2(v.g)+'</td><td class="neg">'+f2(v.s)+'</td><td class="neg">'+f2(v.i)+"</td><td>"+f2(v.m)+"</td><td>"+(v.c===null?"—":f2(v.c))+"</td><td>"+f2(v.gv)+'</td><td class="pos">'+f2(v.xg)+'</td><td class="neg">'+f2(v.gvn)+"</td><td>"+f2(v.d)+'</td><td class="pos">'+f2(v.xd)+'</td><td class="neg">'+f2(v.dn)+'</td><td class="neg">'+f2(v.k)+'</td><td class="net">'+f2(v.n)+'</td><td class="neg">'+f2(v.se)+'</td><td class="neg">'+f2(v.ie)+'</td><td class="cost">'+f2(v.ct)+"</td></tr>";
     }
-    h+='<tr class="tot"><td>'+(lang==="tr"?"Yıllık toplam":"Annual total")+"</td><td>"+f2(T.g)+'</td><td class="neg">'+f2(T.s)+"</td><td>"+f2(T.m)+"</td><td>—</td><td class=\"neg\">"+f2(T.gv)+'</td><td class="neg">'+f2(T.d)+'</td><td class="net">'+f2(T.n)+"</td></tr></tbody></table>";
+    for(var j=0;j<12;j++){
+      var p=payroll(gross,cum), gvNet=p.gv-p.exGv, dNet=p.dmg-p.exDmg;
+      var v={g:p.gross,s:p.sgk,i:p.iss,m:p.gvm,c:p.newCum,gv:p.gv,xg:p.exGv,gvn:gvNet,d:p.dmg,xd:p.exDmg,dn:dNet,k:p.sgk+p.iss+gvNet+dNet,n:p.net,se:p.sgkIsv,ie:p.issIsv,ct:p.cost};
+      h+=row(M[j],v);
+      K.forEach(function(k){T[k]+=v[k];}); cum=p.newCum;
+    }
+    T.c=null;
+    h+=row(lang==="tr"?"Yıllık toplam":"Annual total",T,"tot");
+    h+="</tbody></table>";
     box.innerHTML=h;
   }
 
@@ -498,7 +512,7 @@
     document.title=(l==="tr")?'Hesaplamalar — MG Consulting':'Calculations — MG Consulting';
     lang=l;
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
-     "pp1","pp2","pp3","pp4","pp5","pp6","pp7","pp8","pp9",
+     "pp1","pp2","pp3","pp4","pp5","pp6","pp7","pp8","pp9","pp10","pp11",
      "c1h","c1s","c1a","c1b","c1y","c1n","c2h","c2s","c2a","c2b","c2n",
      "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3p","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
