@@ -92,6 +92,7 @@
   }
 
   function applyLang(l){
+    document.title=(l==="tr")?'Aydınlatma Metni ve Çerez Politikası — MG Consulting':'Data Protection Notice — MG Consulting';
     lang=l;
     ["kick","h1","intro","utilLabel","dK","dT","lblIdx"].forEach(function(id){
       var e=document.getElementById(id);if(e)e.textContent=L(id);

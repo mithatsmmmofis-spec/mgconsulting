@@ -488,6 +488,7 @@
   });
 
   function applyLang(l){
+    document.title=(l==="tr")?'Şirket Check-Up — MG Consulting':'Company Check-Up — MG Consulting';
     lang=l;
     ["kick","h1","intro","utilLabel","privK","privT","lblTb","lblDecl","lblFile",
      "hintTxt","hintDecl","l1","l2","l3","l4"].forEach(function(id){

@@ -11,6 +11,7 @@
   nodes.forEach(function(n){n.setAttribute("data-en",n.textContent);});
   var bEN=document.getElementById("btnEN"),bTR=document.getElementById("btnTR");
   function apply(l){
+    document.title=(l==="tr")?'Kullanım Şartları — MG Consulting':'Terms of Use — MG Consulting';
     nodes.forEach(function(n){
       var v=l==="tr"?n.getAttribute("data-tr"):n.getAttribute("data-en");
       if(v!=null)n.textContent=v;

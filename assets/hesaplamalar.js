@@ -495,6 +495,7 @@
   }
 
   function applyLang(l){
+    document.title=(l==="tr")?'Hesaplamalar — MG Consulting':'Calculations — MG Consulting';
     lang=l;
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
      "pp1","pp2","pp3","pp4","pp5","pp6","pp7","pp8","pp9",
