@@ -645,6 +645,10 @@
   }
 
   function applyLang(l){
+    Array.prototype.forEach.call(document.querySelectorAll("[data-tr]"),function(e){
+      if(!e.getAttribute("data-en"))e.setAttribute("data-en",e.textContent);
+      e.textContent=e.getAttribute(l==="tr"?"data-tr":"data-en");
+    });
     document.title=(l==="tr")?'Hesaplamalar — MG Consulting':'Calculations — MG Consulting';
     lang=l;
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
