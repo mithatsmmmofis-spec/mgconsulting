@@ -179,3 +179,6 @@ main{padding-top:0!important}
 .je.ea td,.je.ea th{white-space:normal}
 .je.ea input,.je.ea select{font-size:13px;padding:6px 8px;min-width:110px}
 .je.ea td:first-child{min-width:220px}
+
+/* donem parametreleri gizli: degerler sayfada tutulur, ziyaretciye gosterilmez */
+.par{display:none!important}

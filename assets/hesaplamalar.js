@@ -11,7 +11,7 @@
   var UI={
    kick:["Tools","Araçlar"],
    h1:["Calculations","Hesaplamalar"],
-   intro:["Every calculation uses the period parameters shown below, which the firm keeps current. The basis and the date of the last check are always visible.","Her hesaplama, aşağıda gösterilen ve büro tarafından güncel tutulan dönem parametrelerini kullanır. Dayanak ve son kontrol tarihi her zaman görünür."],
+   intro:["The calculators use the current period parameters (minimum wage, social security limits, tax bands, severance ceiling), which the firm keeps up to date; the basis is shown with every result.","Hesaplayıcılar, büro tarafından güncel tutulan dönem parametreleriyle (asgari ücret, SGK sınırları, vergi dilimleri, kıdem tavanı) çalışır; dayanak her sonucun yanında gösterilir."],
    utilLabel:["Calculations","Hesaplamalar"],
    parH:["Period parameters","Dönem parametreleri"],
    parD:["Maintained by the firm and updated when the legislation changes. Visitors cannot alter them; every calculation below uses exactly these values.","Büro tarafından tutulur ve mevzuat değiştiğinde güncellenir. Ziyaretçi değiştiremez; aşağıdaki her hesaplama tam olarak bu değerleri kullanır."],
