@@ -329,18 +329,20 @@ footer .wrap{padding-block:54px 44px}
 @media (max-width:860px){.cfo .lead{grid-template-columns:1fr}}
 @media (max-width:640px){.cfohero .txt{position:static;background:#0A1F33}.cfohero .txt .wrap{padding-block:22px 28px}.cfohero h2,.cfohero p{text-shadow:none}.cfobody{padding-block:40px}}
 
-/* --- giris: Istanbul aksami --- */
-.open{background:#0A1F33!important;background-image:none!important;color:#F8F6F2!important;border-bottom:0!important}
+/* --- giris: Istanbul aksami, metin resmin alt kenarinda --- */
+.open{background:#0A1F33!important;background-image:none!important;color:#F8F6F2!important;border-bottom:0!important;position:relative;overflow:hidden}
 .open::before,.open::after{display:none!important}
-.open svg.sky{position:absolute;inset:0;width:100%;height:100%;display:block}
-.open .wrap{position:relative;z-index:1;grid-template-columns:1fr;padding-block:clamp(90px,16vw,230px) clamp(44px,6vw,80px)}
+.open svg.sky{position:static;display:block;width:100%;height:auto;max-width:100%}
+.open .wrap{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;grid-template-columns:1fr;padding-block:0 clamp(24px,4.5vw,60px)}
+.open .wrap>div{margin:0;width:100%;max-width:none}
 .open .kicker{color:#E2C27A!important}
-.open h1{color:#F8F6F2!important;text-shadow:0 2px 26px rgba(0,0,0,.55);max-width:20ch}
-.open .lede{color:rgba(248,246,242,.9)!important;text-shadow:0 1px 16px rgba(0,0,0,.55)}
+.open h1{color:#F8F6F2!important;text-shadow:0 2px 26px rgba(0,0,0,.55);max-width:20ch;font-size:clamp(24px,3.6vw,46px);margin-top:12px}
+.open .lede{color:rgba(248,246,242,.92)!important;text-shadow:0 1px 16px rgba(0,0,0,.55);font-size:clamp(14px,1.4vw,17.5px);margin-top:14px;max-width:60ch}
+.open .cta{margin-top:20px}
 .open .btn.line{color:#F8F6F2!important;border-color:rgba(255,255,255,.4)!important;background:rgba(10,31,51,.35)!important}
 .open .btn.line:hover{background:rgba(10,31,51,.6)!important}
 .cfohero.plain{background:var(--navy)}
 .cfohero.plain .txt{position:static}
 .cfohero.plain .txt .wrap{padding-block:40px 44px}
 .cfohero.plain h2,.cfohero.plain p{text-shadow:none}
-@media (max-width:640px){.open .wrap{padding-block:150px 36px}}
+@media (max-width:760px){.open .wrap{position:static;padding-block:22px 30px;background:#0A1F33}.open h1,.open .lede{text-shadow:none}}
