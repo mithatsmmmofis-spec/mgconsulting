@@ -103,6 +103,72 @@
 
 <main id="top">
  <div class="open">
+  <svg class="sky" viewBox="0 0 1600 720" preserveAspectRatio="xMidYMid slice" aria-label="İstanbul, Boğaz, Kız Kulesi ve Galata Kulesi akşam manzarası">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C1C33"/><stop offset=".45" stop-color="#2A3F66"/><stop offset=".72" stop-color="#C98A52"/><stop offset=".86" stop-color="#F0C27A"/><stop offset="1" stop-color="#F7D9A0"/></linearGradient>
+      <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2A96A"/><stop offset=".25" stop-color="#4E6B94"/><stop offset="1" stop-color="#0E2240"/></linearGradient>
+      <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A5F86"/><stop offset="1" stop-color="#2E3A5E"/></linearGradient>
+      <linearGradient id="near" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A2740"/><stop offset="1" stop-color="#0A1529"/></linearGradient>
+      <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF1C8"/><stop offset=".6" stop-color="#F6C878" stop-opacity=".9"/><stop offset="1" stop-color="#F6C878" stop-opacity="0"/></radialGradient>
+      <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7D9A0" stop-opacity=".0"/><stop offset="1" stop-color="#F7D9A0" stop-opacity=".55"/></linearGradient>
+      <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset=".55" stop-color="#0A1F33" stop-opacity="0"/><stop offset="1" stop-color="#0A1F33" stop-opacity=".82"/></linearGradient>
+    </defs>
+    <rect width="1600" height="720" fill="url(#sky)"/>
+    <!-- gunes -->
+    <circle cx="1120" cy="505" r="120" fill="url(#sun)"/>
+    <circle cx="1120" cy="505" r="34" fill="#FFF4D6"/>
+    <!-- uzak kiyi: tarihi yarimada, camiler, minareler -->
+    <g fill="url(#far)">
+      <path d="M0 520 L0 470 L60 470 L70 440 L80 470 L140 470 L150 452 L160 470 L220 470 L232 430 L244 470 L300 470 L312 455 L324 470 L420 470 L430 448 L440 470 L520 470 L520 520Z"/>
+      <!-- buyuk cami: kubbe ve minareler -->
+      <path d="M540 520 L540 470 L548 470 L548 400 L553 392 L558 400 L558 470 L575 470 C580 440 600 428 625 426 C650 428 670 440 675 470 L692 470 L692 400 L697 392 L702 400 L702 470 L710 470 L710 520Z"/>
+      <path d="M600 470 C603 452 612 445 625 444 C638 445 647 452 650 470Z" fill="#6A6F94"/>
+      <path d="M710 520 L710 478 L760 478 L770 462 L780 478 L860 478 L872 450 L884 478 L960 478 L960 520Z"/>
+      <!-- Galata Kulesi -->
+      <path d="M1240 520 L1240 430 L1246 430 L1246 380 L1250 372 L1254 365 L1270 340 L1286 365 L1290 372 L1294 380 L1294 430 L1300 430 L1300 520Z"/>
+      <rect x="1246" y="430" width="48" height="6" fill="#6A6F94"/>
+      <path d="M960 520 L960 486 L1040 486 L1052 468 L1064 486 L1180 486 L1180 520 L1240 520 L1300 520 L1360 520 L1360 482 L1420 482 L1428 465 L1436 482 L1520 482 L1600 482 L1600 520Z"/>
+    </g>
+    <!-- deniz -->
+    <rect y="518" width="1600" height="202" fill="url(#sea)"/>
+    <rect y="518" width="1600" height="120" fill="url(#glow)" opacity=".5"/>
+    <!-- gunesin denizdeki izi -->
+    <g fill="#F7D9A0" opacity=".55">
+      <rect x="1095" y="530" width="50" height="3"/><rect x="1080" y="542" width="80" height="3"/><rect x="1098" y="556" width="44" height="3"/><rect x="1070" y="571" width="100" height="3"/><rect x="1090" y="590" width="60" height="3"/><rect x="1060" y="612" width="120" height="3"/><rect x="1100" y="640" width="40" height="3"/>
+    </g>
+    <!-- dalga cizgileri -->
+    <g stroke="#9FB3D1" stroke-width="2" opacity=".35" fill="none">
+      <path d="M40 600 q30 -6 60 0 t60 0 t60 0"/><path d="M380 650 q30 -6 60 0 t60 0"/><path d="M1300 585 q30 -6 60 0 t60 0 t60 0"/><path d="M820 670 q30 -6 60 0 t60 0 t60 0 t60 0"/>
+    </g>
+    <!-- Kiz Kulesi: adacik uzerinde -->
+    <g>
+      <path d="M560 640 C600 618 700 618 740 640 L740 648 L560 648Z" fill="#17233A"/>
+      <path d="M580 640 C612 626 688 626 720 640Z" fill="#2C3C5C"/>
+      <rect x="610" y="588" width="80" height="52" fill="#1C2A45"/>
+      <rect x="604" y="582" width="92" height="8" fill="#2E3E60"/>
+      <rect x="634" y="520" width="32" height="68" fill="#1C2A45"/>
+      <rect x="630" y="514" width="40" height="8" fill="#2E3E60"/>
+      <path d="M636 514 L650 470 L664 514Z" fill="#1C2A45"/>
+      <rect x="647" y="462" width="6" height="10" fill="#2E3E60"/>
+      <circle cx="650" cy="459" r="3.5" fill="#F6C878"/>
+      <!-- pencere isiklari -->
+      <rect x="622" y="600" width="6" height="9" fill="#F6C878" opacity=".9"/><rect x="646" y="600" width="6" height="9" fill="#F6C878" opacity=".9"/><rect x="670" y="600" width="6" height="9" fill="#F6C878" opacity=".9"/>
+      <rect x="644" y="536" width="5" height="8" fill="#F6C878" opacity=".9"/><rect x="654" y="536" width="5" height="8" fill="#F6C878" opacity=".9"/>
+    </g>
+    <!-- vapur -->
+    <g>
+      <path d="M300 612 L312 596 L400 596 L408 612Z" fill="#111C30"/>
+      <rect x="326" y="582" width="60" height="14" fill="#1C2A45"/>
+      <rect x="340" y="566" width="10" height="16" fill="#1C2A45"/>
+      <g fill="#F6C878" opacity=".9"><rect x="332" y="586" width="4" height="5"/><rect x="342" y="586" width="4" height="5"/><rect x="352" y="586" width="4" height="5"/><rect x="362" y="586" width="4" height="5"/><rect x="372" y="586" width="4" height="5"/></g>
+      <path d="M350 566 q8 -12 22 -8" stroke="#8C9BB8" stroke-width="3" fill="none" opacity=".6"/>
+    </g>
+    <!-- yakin kiyi (sag alt) -->
+    <path d="M1180 720 L1180 672 L1230 660 L1300 666 L1380 650 L1460 662 L1540 648 L1600 656 L1600 720Z" fill="url(#near)"/>
+    <g fill="#F6C878" opacity=".85"><rect x="1250" y="676" width="4" height="4"/><rect x="1292" y="680" width="4" height="4"/><rect x="1330" y="668" width="4" height="4"/><rect x="1400" y="672" width="4" height="4"/><rect x="1470" y="670" width="4" height="4"/><rect x="1520" y="664" width="4" height="4"/></g>
+    <!-- metin okunurlugu icin alt golge -->
+    <rect width="1600" height="720" fill="url(#shade)"/>
+  </svg>
   <div class="wrap">
    <div>
     <span class="kicker" data-tr="Muhasebe · Vergi · Finansal Raporlama">Accounting · Tax · Financial Reporting</span>
@@ -112,37 +178,6 @@
      <a class="btn gold" href="#services" data-tr="Hizmetler">Our services</a>
      <a class="btn line" href="#checkup" data-tr="Şirket Check-Up">Company check-up</a>
     </div>
-   </div>
-   <div class="openart" aria-hidden="true">
-    <svg viewBox="0 0 320 260" aria-hidden="true">
-     <defs>
-      <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1">
-       <stop offset="0" stop-color="var(--bronze)" stop-opacity=".5"/>
-       <stop offset="1" stop-color="var(--bronze)" stop-opacity="0"/>
-      </linearGradient>
-      <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse">
-       <circle cx="1" cy="1" r="1" fill="currentColor" opacity=".14"/>
-      </pattern>
-     </defs>
-     <rect width="320" height="260" fill="url(#dots)"/>
-     <path d="M24 202 C80 196 100 160 136 150 S196 130 226 104 S278 76 300 70 L300 212 L24 212 Z" fill="url(#gA)"/>
-     <path d="M24 202 C80 196 100 160 136 150 S196 130 226 104 S278 76 300 70" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" opacity=".92"/>
-     <circle cx="300" cy="70" r="4.5" fill="var(--bronze)"/>
-     <circle cx="300" cy="70" r="9.5" fill="none" stroke="var(--bronze)" stroke-width="1" opacity=".55"/>
-     <circle cx="82" cy="84" r="42" fill="none" stroke="currentColor" stroke-width="10" opacity=".13"/>
-     <path d="M82 42 a42 42 0 0 1 40.5 53.4" fill="none" stroke="var(--bronze)" stroke-width="10"/>
-     <circle cx="82" cy="84" r="24" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"/>
-     <rect x="24" y="224" width="118" height="7" fill="currentColor" opacity=".36"/>
-     <rect x="24" y="238" width="84" height="7" fill="currentColor" opacity=".22"/>
-     <rect x="150" y="224" width="54" height="7" fill="var(--bronze)"/>
-     <path d="M214 231h86M214 239h86" stroke="currentColor" stroke-width="2" opacity=".85"/>
-     <g transform="translate(254 14)">
-      <rect x="0" y="0" width="36" height="4.2" fill="currentColor"/>
-      <rect x="15.9" y="0" width="4.2" height="28" fill="currentColor"/>
-      <rect x="3.6" y="10" width="7.6" height="3.4" fill="currentColor" opacity=".6"/>
-      <rect x="24.8" y="17" width="7.6" height="3.4" fill="var(--bronze)"/>
-     </g>
-    </svg>
    </div>
   </div>
  </div>
@@ -182,7 +217,7 @@
 
 
  <section id="cfo" class="cfo">
-  <div class="cfohero">
+  <div class="cfohero plain">
    
    <div class="txt"><div class="wrap">
     <span class="kicker" data-tr="Finansal danışmanlık ve CFO hizmetleri">Financial consulting and CFO services</span>

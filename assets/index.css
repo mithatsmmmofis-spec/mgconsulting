@@ -328,3 +328,19 @@ footer .wrap{padding-block:54px 44px}
 .cfocards .n{font-family:var(--font-display);font-size:11px;letter-spacing:.14em;color:var(--bronze);font-weight:700;margin-bottom:10px;display:block;text-transform:uppercase}
 @media (max-width:860px){.cfo .lead{grid-template-columns:1fr}}
 @media (max-width:640px){.cfohero .txt{position:static;background:#0A1F33}.cfohero .txt .wrap{padding-block:22px 28px}.cfohero h2,.cfohero p{text-shadow:none}.cfobody{padding-block:40px}}
+
+/* --- giris: Istanbul aksami --- */
+.open{background:#0A1F33!important;background-image:none!important;color:#F8F6F2!important;border-bottom:0!important}
+.open::before,.open::after{display:none!important}
+.open svg.sky{position:absolute;inset:0;width:100%;height:100%;display:block}
+.open .wrap{position:relative;z-index:1;grid-template-columns:1fr;padding-block:clamp(90px,16vw,230px) clamp(44px,6vw,80px)}
+.open .kicker{color:#E2C27A!important}
+.open h1{color:#F8F6F2!important;text-shadow:0 2px 26px rgba(0,0,0,.55);max-width:20ch}
+.open .lede{color:rgba(248,246,242,.9)!important;text-shadow:0 1px 16px rgba(0,0,0,.55)}
+.open .btn.line{color:#F8F6F2!important;border-color:rgba(255,255,255,.4)!important;background:rgba(10,31,51,.35)!important}
+.open .btn.line:hover{background:rgba(10,31,51,.6)!important}
+.cfohero.plain{background:var(--navy)}
+.cfohero.plain .txt{position:static}
+.cfohero.plain .txt .wrap{padding-block:40px 44px}
+.cfohero.plain h2,.cfohero.plain p{text-shadow:none}
+@media (max-width:640px){.open .wrap{padding-block:150px 36px}}
