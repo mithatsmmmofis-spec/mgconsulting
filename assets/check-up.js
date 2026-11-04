@@ -492,7 +492,7 @@
       if(!e.getAttribute("data-en"))e.setAttribute("data-en",e.textContent);
       e.textContent=e.getAttribute(l==="tr"?"data-tr":"data-en");
     });
-    document.title=(l==="tr")?'Şirket Check-Up — MG Consulting':'Company Check-Up — MG Consulting';
+    document.title=(l==="tr")?'Şirket Check-Up: Mizan Üzerinden Finansal Risk Taraması | MG Consulting':'Company Check-Up — MG Consulting';
     lang=l;
     ["kick","h1","intro","utilLabel","privK","privT","lblTb","lblDecl","lblFile",
      "hintTxt","hintDecl","l1","l2","l3","l4"].forEach(function(id){

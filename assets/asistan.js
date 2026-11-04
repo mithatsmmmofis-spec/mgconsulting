@@ -127,7 +127,7 @@
 
   function applyLang(l){
     lang=l;
-    document.title=(l==="tr")?"MG Asistan — MG Consulting":"MG Assistant — MG Consulting";
+    document.title=(l==="tr")?"MG Asistan: Muhasebe ve Vergi Sorularına Yapay Zekâ Rehberi | MG Consulting":"MG Assistant — MG Consulting";
     ["kick","h1","intro","utilLabel","chatTitle","themeBtn","qLabel","send","reset","hint",
      "s1h","s1a","s1b","s1d","s2h","s2a","s2b","s2c","s3h"].forEach(function(id){var e=el(id);if(e)e.textContent=L(id);});
     el("s1c").innerHTML=(l==="tr")

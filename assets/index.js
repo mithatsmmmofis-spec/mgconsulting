@@ -34,7 +34,7 @@
   if(yr)yr.addEventListener("change",updYear);
 
   function apply(l){
-    document.title=(l==="tr")?'MG Consulting — Muhasebe, Vergi, Raporlama':'MG Consulting — Accounting, Tax, Reporting';
+    document.title=(l==="tr")?'MG Consulting | Mali Müşavirlik, Muhasebe ve Vergi Danışmanlığı, Aydın':'MG Consulting — Accounting, Tax, Reporting';
     lang=l;
     nodes.forEach(function(n){
       var v=l==="tr"?n.getAttribute("data-tr"):n.getAttribute("data-en");
