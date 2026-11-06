@@ -166,6 +166,10 @@ export default {
     if (request.method === "GET" && url.pathname === "/") {
       return new Response("mg-asistan ok", { headers: { "Content-Type": "text/plain" } });
     }
+    // Ziyaret sayaci: yalnizca sayilir, hicbir sey saklanmaz. Cloudflare Metrics'te istek olarak gorunur.
+    if (url.pathname === "/hit") {
+      return new Response(null, { status: 204, headers: Object.assign({ "Cache-Control": "no-store" }, cors(origin === allowed || origin === "https://mgconsultingtr.com" ? origin : allowed)) });
+    }
     if (request.method !== "POST" || url.pathname !== "/chat") {
       return json(404, { error: "not_found" }, allowed);
     }
