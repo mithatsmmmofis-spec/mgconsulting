@@ -42,6 +42,7 @@
    c2s:["Solves for the gross that produces the net entered.","Girilen neti veren brütü çözer."],
    c2a:["Target net salary","Hedef net ücret"],
    c2b:["Cumulative tax base, prior months","Önceki ayların kümülatif vergi matrahı"],
+   c2y:["Full year, month by month (net held constant, gross solved for each month)","Tüm yıl, ay ay (net sabit tutulur, her ayın brütü çözülür)"],
    c2n:["Solved numerically against the same payroll rules, to the nearest kurus.","Aynı bordro kurallarıyla sayısal olarak, kuruş hassasiyetinde çözülür."],
    c3h:["Severance and notice pay","Kıdem ve ihbar tazminatı"],
    c3s:["Enter the gross wage and any regular benefits; the severance base is built for you. Notice periods are those set in the Labour Law.","Brüt ücreti ve varsa düzenli yan hakları yazın; kıdeme esas ücret sizin için oluşturulur. İhbar süreleri İş Kanunu'nda yazılı olanlardır."],
@@ -282,8 +283,13 @@
   }
 
 
-  function yearTable(gross,cum0){
-    var box=el("s_year"); if(!box)return;
+  function solveGross(want,cum){
+    var lo=want, hi=want*3+10000, g=want;
+    for(var i=0;i<60;i++){g=(lo+hi)/2;if(payroll(g,cum).net<want)lo=g;else hi=g;}
+    return Math.round(g*100)/100;
+  }
+  function yearTable(gross,cum0,boxId,targetNet){
+    var box=el(boxId||"s_year"); if(!box)return;
     if(gross<=0){box.innerHTML="";return;}
     var M=lang==="tr"?["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
                      :["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -296,6 +302,7 @@
       return "<tr"+(cls?' class="'+cls+'"':"")+"><td>"+name+"</td><td>"+f2(v.g)+'</td><td class="neg">'+f2(v.s)+'</td><td class="neg">'+f2(v.i)+"</td><td>"+f2(v.m)+"</td><td>"+(v.c===null?"—":f2(v.c))+"</td><td>"+f2(v.gv)+'</td><td class="pos">'+f2(v.xg)+'</td><td class="neg">'+f2(v.gvn)+"</td><td>"+f2(v.d)+'</td><td class="pos">'+f2(v.xd)+'</td><td class="neg">'+f2(v.dn)+'</td><td class="neg">'+f2(v.k)+'</td><td class="net">'+f2(v.n)+'</td><td class="neg">'+f2(v.se)+'</td><td class="neg">'+f2(v.ie)+'</td><td class="cost">'+f2(v.ct)+"</td></tr>";
     }
     for(var j=0;j<12;j++){
+      if(targetNet)gross=solveGross(targetNet,cum);
       var p=payroll(gross,cum), gvNet=p.gv-p.exGv, dNet=p.dmg-p.exDmg;
       var v={g:p.gross,s:p.sgk,i:p.iss,m:p.gvm,c:p.newCum,gv:p.gv,xg:p.exGv,gvn:gvNet,d:p.dmg,xd:p.exDmg,dn:dNet,k:p.sgk+p.iss+gvNet+dNet,n:p.net,se:p.sgkIsv,ie:p.issIsv,ct:p.cost};
       h+=row(M[j],v);
@@ -315,15 +322,10 @@
   }
   function calcN2G(){
     var want=num(el("n_net").value), cum=num(el("n_cum").value);
-    if(want<=0){el("n_res").innerHTML="";return;}
-    var lo=want, hi=want*3+10000, g=want;
-    for(var i=0;i<60;i++){
-      g=(lo+hi)/2;
-      var n=payroll(g,cum).net;
-      if(n<want)lo=g;else hi=g;
-    }
-    var p=payroll(Math.round(g*100)/100,cum);
+    if(want<=0){el("n_res").innerHTML="";yearTable(0,0,"n_year");return;}
+    var p=payroll(solveGross(want,cum),cum);
     showPayroll("n_res",p);
+    yearTable(p.gross,cum,"n_year",want);
   }
 
   /* ---- severance ---- */
@@ -653,7 +655,7 @@
     lang=l;
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
      "pp1","pp2","pp3","pp4","pp5","pp6","pp7","pp8","pp9","pp10","pp11",
-     "c1h","c1s","c1a","c1b","c1y","c1n","c2h","c2s","c2a","c2b","c2n",
+     "c1h","c1s","c1a","c1b","c1y","c1n","c2h","c2s","c2a","c2b","c2y","c2n",
      "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3p","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
      "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8c","c8d","c8j","c8n","c9h","c9s","c9a","c9b","c9c","c9d","c9e","c9f","c9j","c9n","c10h","c10s","c10a","c10b","c10t1","c10t2","c10t3","c10t4","c10r","c10j","c10n","parNote"].forEach(function(id){
