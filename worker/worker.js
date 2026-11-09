@@ -250,9 +250,10 @@ export default {
       return json(502, { error: "upstream_unreachable" }, allowed);
     }
     if (!upstream.ok) {
-      const code = upstream.status === 429 ? "rate_limited" : upstream.status === 401 ? "bad_key" : "upstream_error";
       let detail = "";
       try { const j = await upstream.json(); detail = (j && j.error && j.error.message) ? String(j.error.message).slice(0, 200) : ""; } catch (e) {}
+      const noCredit = /credit balance|billing|purchase credits/i.test(detail);
+      const code = noCredit ? "no_credit" : upstream.status === 429 ? "rate_limited" : upstream.status === 401 ? "bad_key" : "upstream_error";
       return json(502, { error: code, status: upstream.status, detail }, allowed);
     }
     return relay(upstream, allowed);

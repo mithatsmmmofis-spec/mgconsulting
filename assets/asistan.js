@@ -39,6 +39,7 @@
    offMsg:["The assistant is not active yet. It will be switched on once the backend is deployed.","Asistan henüz devreye alınmadı. Arka uç yayınlandığında açılacaktır."],
    errGen:["Something went wrong. Please try again.","Bir hata oluştu, tekrar deneyebilirsiniz."],
    errRate:["Too many requests. Please try again in a minute.","Çok fazla istek gönderildi. Bir dakika sonra tekrar deneyin."],
+   errCredit:["The assistant is not available at the moment. You can still use the calculators and articles on the site.","Asistan şu an hizmet dışı. Sitedeki hesaplayıcıları ve yazıları kullanmaya devam edebilirsiniz."],
    errCfg:["The assistant is temporarily unavailable.","Asistan geçici olarak kullanılamıyor."],
    empty:["No answer returned.","Cevap alınamadı."],
    waitMsg:["Preparing the answer","Cevap hazırlanıyor"],
@@ -98,6 +99,7 @@
       if(!r.ok){
         var code="",st="",det="";try{var j=await r.json();code=j.error||"";st=j.status||"";det=j.detail||"";}catch(e){}
         var m=L("errGen");
+        if(code==="no_credit"){m=L("errCredit");throw new Error(m);}
         if(r.status===429||code==="rate_limited")m=L("errRate");
         else if(r.status===503||code==="not_configured"||code==="bad_key")m=L("errCfg");
         throw new Error(m+" ["+r.status+(code?" "+code:"")+(st?" "+st:"")+(det?": "+det:"")+"]");
