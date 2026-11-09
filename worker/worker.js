@@ -229,18 +229,23 @@ export default {
       messages,
     };
 
+    // Hizli mod (ayni model, yaklasik 2-3 kat hizli cikti). Kullanilamazsa normal moda doner.
+    const call = (fast) => fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": API_VERSION,
+        "anthropic-beta": fast ? "server-side-fallback-2026-07-01,fast-mode-2026-02-01" : "server-side-fallback-2026-07-01",
+      },
+      body: JSON.stringify(fast ? Object.assign({ speed: "fast" }, payload) : payload),
+    });
     let upstream;
     try {
-      upstream = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey,
-          "anthropic-version": API_VERSION,
-          "anthropic-beta": "server-side-fallback-2026-07-01",
-        },
-        body: JSON.stringify(payload),
-      });
+      upstream = await call(env.FAST_MODE !== "off");
+      if (!upstream.ok && env.FAST_MODE !== "off" && [400, 429, 503, 529].includes(upstream.status)) {
+        upstream = await call(false);
+      }
     } catch (e) {
       return json(502, { error: "upstream_unreachable" }, allowed);
     }
