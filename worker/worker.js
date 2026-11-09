@@ -59,7 +59,8 @@ GÜNCEL MEVZUAT NOTLARI (büro tarafından doğrulanmıştır; eğitim verindeki
 - Gecikme zammı aylık %4,5.
 Bu listede olmayan yıla bağlı değerler için 4. kuralı uygula.
 
-11. Mesleki konulardaki cevabını şu satırla, tek başına bir satırda bitir: [NOT] Bilgilendirme amaçlıdır; somut olaya ilişkin değerlendirme içermez. Selamlaşma veya genel sohbet mesajlarında bu satırı ekleme.`;
+11. Hız: kısa ve net sorularda uzun düşünme; bildiğin ve güncel notlarda olan konuda arama yapmadan hemen cevapla. Aramayı yalnızca güncel notlarda olmayan, yıla bağlı veya yakın zamanda değişmiş olabilecek bilgi için yap ve en fazla iki aramayla sınırla.
+12. Mesleki konulardaki cevabını şu satırla, tek başına bir satırda bitir: [NOT] Bilgilendirme amaçlıdır; somut olaya ilişkin değerlendirme içermez. Selamlaşma veya genel sohbet mesajlarında bu satırı ekleme.`;
 
 const SYSTEM_EN = SYSTEM_TR + `
 
@@ -113,13 +114,17 @@ function cleanMessages(input) {
   return out;
 }
 
-// Anthropic SSE akışını okuyup tarayıcıya yalnızca metin parçalarını geçirir.
+// Anthropic SSE akisini okuyup tarayiciya metin parcalarini, ayrica durum isaretlerini gecirir.
+// Durum isaretleri: "\u001eT:<metin>\n" dusunme ozeti parcasi, "\u001eS:<metin>\n" o anki islem (arama vb.).
 function relay(upstream, origin) {
   const dec = new TextDecoder();
   const enc = new TextEncoder();
   let buf = "";
   let refused = false;
+  const tools = {}; // index -> {name, json}
+  const mark = (k, t) => "\u001e" + k + ":" + String(t).replace(/[\r\n\u001e]+/g, " ") + "\n";
   const ts = new TransformStream({
+    start(controller) { controller.enqueue(enc.encode(mark("S", "Soru inceleniyor"))); },
     transform(chunk, controller) {
       buf += dec.decode(chunk, { stream: true });
       let i;
@@ -130,8 +135,20 @@ function relay(upstream, origin) {
           if (!line.startsWith("data:")) continue;
           let ev;
           try { ev = JSON.parse(line.slice(5).trim()); } catch (e) { continue; }
-          if (ev.type === "content_block_delta" && ev.delta && ev.delta.type === "text_delta") {
-            controller.enqueue(enc.encode(ev.delta.text));
+          if (ev.type === "content_block_start" && ev.content_block) {
+            const cb = ev.content_block;
+            if (cb.type === "server_tool_use") tools[ev.index] = { name: cb.name, json: "" };
+            else if (cb.type === "thinking") controller.enqueue(enc.encode(mark("S", "Düşünüyor")));
+          } else if (ev.type === "content_block_delta" && ev.delta) {
+            const d = ev.delta;
+            if (d.type === "text_delta") controller.enqueue(enc.encode(d.text));
+            else if (d.type === "thinking_delta" && d.thinking) controller.enqueue(enc.encode(mark("T", d.thinking)));
+            else if (d.type === "input_json_delta" && tools[ev.index]) tools[ev.index].json += d.partial_json || "";
+          } else if (ev.type === "content_block_stop" && tools[ev.index]) {
+            const t = tools[ev.index]; delete tools[ev.index];
+            let inp = {}; try { inp = JSON.parse(t.json || "{}"); } catch (e) {}
+            if (t.name === "web_search") controller.enqueue(enc.encode(mark("S", "Kaynak aranıyor: " + (inp.query || ""))));
+            else if (t.name === "web_fetch") controller.enqueue(enc.encode(mark("S", "Kaynak okunuyor: " + (inp.url || "").replace(/^https?:\/\//, "").slice(0, 80))));
           } else if (ev.type === "message_delta" && ev.delta && ev.delta.stop_reason === "refusal") {
             refused = true;
           } else if (ev.type === "error") {
@@ -202,10 +219,12 @@ export default {
       max_tokens: MAX_OUTPUT_TOKENS,
       stream: true,
       fallbacks: "default",
+      thinking: { type: "adaptive", display: "summarized" },
+      output_config: { effort: "low" },
       system: [{ type: "text", text: lang === "en" ? SYSTEM_EN : SYSTEM_TR, cache_control: { type: "ephemeral" } }],
       tools: [
-        { type: "web_search_20260209", name: "web_search", max_uses: 6, user_location: { type: "approximate", country: "TR", timezone: "Europe/Istanbul" } },
-        { type: "web_fetch_20260209", name: "web_fetch", max_uses: 6 },
+        { type: "web_search_20260209", name: "web_search", max_uses: 3, user_location: { type: "approximate", country: "TR", timezone: "Europe/Istanbul" } },
+        { type: "web_fetch_20260209", name: "web_fetch", max_uses: 2 },
       ],
       messages,
     };

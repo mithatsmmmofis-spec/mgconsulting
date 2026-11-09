@@ -124,3 +124,4 @@ aside.side{display:grid;gap:16px;min-width:0}
 @media (max-width:420px){.wrap{padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px))}}
 [hidden]{display:none!important}
 .msg .b .wait{color:var(--ink-3);font-style:italic}
+.msg .b .think{margin-top:6px;font-size:13px;color:var(--ink-3);font-style:italic;line-height:1.5}

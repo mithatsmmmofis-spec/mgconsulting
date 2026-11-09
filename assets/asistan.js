@@ -41,7 +41,7 @@
    errRate:["Too many requests. Please try again in a minute.","Çok fazla istek gönderildi. Bir dakika sonra tekrar deneyin."],
    errCfg:["The assistant is temporarily unavailable.","Asistan geçici olarak kullanılamıyor."],
    empty:["No answer returned.","Cevap alınamadı."],
-   waitMsg:["Preparing the answer: checking current legislation sources, this can take 30 to 90 seconds","Cevap hazırlanıyor: güncel mevzuat kaynakları taranıyor, 30-90 saniye sürebilir"],
+   waitMsg:["Preparing the answer","Cevap hazırlanıyor"],
    ph:["Example: can the VAT on a passenger car bought by a cash-basis taxpayer in 2026 be expensed?","Örnek: 2026 yılında işletme esasına tabi bir mükellefin aldığı binek otomobilin KDV'si gider yazılır mı?"]
   };
   function L(k){var v=UI[k];return v?(lang==="tr"?v[1]:v[0]):"";}
@@ -88,7 +88,7 @@
     var body=add(L("bot"),"bot");
     body.innerHTML="<p class=\"wait\">"+L("waitMsg")+"</p>";
     setBusy(true);
-    var t0=Date.now(), tick=setInterval(function(){var w=body.querySelector(".wait");if(!w){clearInterval(tick);return;}w.textContent=L("waitMsg")+" ("+Math.round((Date.now()-t0)/1000)+" sn)";},1000);
+    var t0=Date.now(), tick=setInterval(function(){var w=body.querySelector(".wait");if(!w)return;w.textContent=w.textContent.replace(/ \(\d+ sn\)$/,"")+" ("+Math.round((Date.now()-t0)/1000)+" sn)";},1000);
     var out="";
     try{
       var r=await fetch(ENDPOINT.replace(/\/$/,"")+"/chat",{
@@ -102,13 +102,24 @@
         else if(r.status===503||code==="not_configured"||code==="bad_key")m=L("errCfg");
         throw new Error(m+" ["+r.status+(code?" "+code:"")+(st?" "+st:"")+(det?": "+det:"")+"]");
       }
-      var rd=r.body.getReader(), dec=new TextDecoder();
+      var rd=r.body.getReader(), dec=new TextDecoder(), raw="";
+      function paint(final){
+        var st="", th="";
+        out=raw.replace(/\u001e([ST]):([^\n]*)(\n|$)/g,function(m,k,v){if(k==="S")st=v;else th+=v;return "";});
+        if(out.trim()){body.innerHTML=fmt(out);}
+        else if(!final){
+          var h='<p class="wait">'+esc(st||L("waitMsg"))+" ("+Math.round((Date.now()-t0)/1000)+" sn)</p>";
+          if(th)h+='<p class="think">'+esc(th.slice(-220))+"</p>";
+          body.innerHTML=h;
+        }
+        log.scrollTop=log.scrollHeight;
+      }
       while(true){
         var ch=await rd.read();if(ch.done)break;
-        out+=dec.decode(ch.value,{stream:true});
-        body.innerHTML=fmt(out);log.scrollTop=log.scrollHeight;
+        raw+=dec.decode(ch.value,{stream:true});
+        paint(false);
       }
-      out+=dec.decode();
+      raw+=dec.decode(); paint(true);
       body.innerHTML=fmt(out)||"<p>"+L("empty")+"</p>";
       if(out.trim())msgs.push({role:"assistant",content:out});else msgs.pop();
     }catch(err){
