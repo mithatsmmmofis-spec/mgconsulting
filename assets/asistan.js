@@ -41,6 +41,7 @@
    errRate:["Too many requests. Please try again in a minute.","Çok fazla istek gönderildi. Bir dakika sonra tekrar deneyin."],
    errCfg:["The assistant is temporarily unavailable.","Asistan geçici olarak kullanılamıyor."],
    empty:["No answer returned.","Cevap alınamadı."],
+   waitMsg:["Preparing the answer: checking current legislation sources, this can take 30 to 90 seconds","Cevap hazırlanıyor: güncel mevzuat kaynakları taranıyor, 30-90 saniye sürebilir"],
    ph:["Example: can the VAT on a passenger car bought by a cash-basis taxpayer in 2026 be expensed?","Örnek: 2026 yılında işletme esasına tabi bir mükellefin aldığı binek otomobilin KDV'si gider yazılır mı?"]
   };
   function L(k){var v=UI[k];return v?(lang==="tr"?v[1]:v[0]):"";}
@@ -85,8 +86,9 @@
     add(L("you"),"me").innerHTML="<p>"+esc(text)+"</p>";
     msgs.push({role:"user",content:text});
     var body=add(L("bot"),"bot");
-    body.innerHTML="<p>…</p>";
+    body.innerHTML="<p class=\"wait\">"+L("waitMsg")+"</p>";
     setBusy(true);
+    var t0=Date.now(), tick=setInterval(function(){var w=body.querySelector(".wait");if(!w){clearInterval(tick);return;}w.textContent=L("waitMsg")+" ("+Math.round((Date.now()-t0)/1000)+" sn)";},1000);
     var out="";
     try{
       var r=await fetch(ENDPOINT.replace(/\/$/,"")+"/chat",{
@@ -115,6 +117,7 @@
       body.innerHTML='<p class="err">'+esc(em)+"</p>";
       if(msgs.length&&msgs[msgs.length-1].role==="user")msgs.pop();
     }
+    clearInterval(tick);
     setBusy(false);log.scrollTop=log.scrollHeight;
   }
 
