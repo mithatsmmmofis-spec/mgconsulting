@@ -67,7 +67,7 @@
    <label><span id="pp1">Period</span><input id="pYear" value="2026" inputmode="numeric" readonly></label>
    <label><span id="pp2">Employee social security rate</span><input id="pSgk" value="14" inputmode="decimal" readonly></label>
    <label><span id="pp3">Employee unemployment rate</span><input id="pIss" value="1" inputmode="decimal" readonly></label>
-   <label><span id="pp10">Employer social security rate, after the 5510/81 discount</span><input id="pSgkIsv" value="16.75" inputmode="decimal" readonly></label>
+   <label><span id="pp10">Employer social security rate, before the 5510/81-ı discount</span><input id="pSgkIsv" value="21.75" inputmode="decimal" readonly></label>
    <label><span id="pp11">Employer unemployment rate</span><input id="pIssIsv" value="2" inputmode="decimal" readonly></label>
    <label><span id="pp4">Stamp duty rate on wages, per thousand</span><input id="pDmg" value="7.59" inputmode="decimal" readonly></label>
    <label><span id="pp5">Social security base, lower limit, monthly</span><input id="pTaban" value="33.030" inputmode="decimal" readonly></label>
@@ -102,11 +102,13 @@
     <div class="two">
      <label><span id="c1a">Gross monthly salary</span><input id="s_gross" inputmode="decimal" placeholder="0"></label>
      <label><span id="c1b">Cumulative tax base, prior months</span><input id="s_cum" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c1d">Employer social security discount</span><select id="s_ind"></select></label>
     </div>
     <div class="res" id="s_res"></div>
     <h4 class="ysub" id="c1y">Full year, month by month</h4>
     <div class="tw" id="s_year"></div>
     <p class="note" id="c1n">The minimum wage exemption is applied as income tax and stamp duty computed on the gross minimum wage entered above.</p>
+    <p class="note" id="s_indN"></p>
    </div>
   </section>
 
@@ -117,11 +119,13 @@
     <div class="two">
      <label><span id="c2a">Target net salary</span><input id="n_net" inputmode="decimal" placeholder="0"></label>
      <label><span id="c2b">Cumulative tax base, prior months</span><input id="n_cum" inputmode="decimal" placeholder="0"></label>
+     <label><span id="c2d">Employer social security discount</span><select id="n_ind"></select></label>
     </div>
     <div class="res" id="n_res"></div>
     <h4 class="ysub" id="c2y">Full year, month by month (net held constant)</h4>
     <div class="tw" id="n_year"></div>
     <p class="note" id="c2n">Solved numerically against the same payroll rules, to the nearest kurus.</p>
+    <p class="note" id="n_indN"></p>
    </div>
   </section>
 

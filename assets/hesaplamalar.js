@@ -24,7 +24,7 @@
    pp7:["Gross minimum wage, monthly","Brüt asgari ücret, aylık"],
    pp8:["Severance pay ceiling, current period (selected by leaving date in the calculator)","Kıdem tazminatı tavanı, cari dönem (hesaplayıcı çıkış tarihine göre dönemi seçer)"],
    pp9:["Default surcharge, monthly rate, per cent","Gecikme zammı aylık oranı, yüzde"],
-   pp10:["Employer social security rate, per cent, after the 5510/81-ı point discount","SGK işveren payı, yüzde, 5510/81-ı puan indirimi düşülmüş"],
+   pp10:["Employer social security rate, per cent, before the 5510/81-ı point discount","SGK işveren payı, yüzde, 5510/81-ı puan indirimi düşülmemiş"],
    pp11:["Employer unemployment rate, per cent","İşsizlik sigortası işveren payı, yüzde"],
    parNote:["Defaults are pre-filled for the 2026 period and were last checked on 03.11.2026. The severance ceiling is applied by period according to the leaving date. Confirm against the legislation in force before relying on a result.","Varsayılanlar 2026 dönemi için doldurulmuştur; son kontrol 03.11.2026. Kıdem tavanı çıkış tarihine göre dönem bazında uygulanır. Sonuca dayanmadan önce yürürlükteki mevzuatla teyit edin."],
    bh1:["Income tax band, cumulative base up to","Gelir vergisi dilimi, kümülatif matrah üst sınırı"],
@@ -38,6 +38,10 @@
    c1b:["Cumulative tax base, prior months","Önceki ayların kümülatif vergi matrahı"],
    c1y:["Full year, month by month","Tüm yıl, ay ay"],
    c1n:["The minimum wage exemption is applied as income tax and stamp duty computed on the gross minimum wage entered above.","Asgari ücret istisnası, yukarıda girilen brüt asgari ücret üzerinden hesaplanan gelir vergisi ve damga vergisi olarak uygulanır."],
+   c1d:["Employer social security discount","SGK işveren payı indirimi"],
+   c2d:["Employer social security discount","SGK işveren payı indirimi"],
+   indOpts:[["No discount","İndirim yok"],["2 points, other sectors","2 puan, imalat dışı"],["5 points, manufacturing","5 puan, imalat"]],
+   indN:["<strong>Employer discount.</strong> Social Security Law 5510 art. 81-ı and provisional art. 108: in 2026 the employer pension share is reduced by 5 points for manufacturing workplaces (NACE section C) and by 2 points for other private-sector workplaces. It applies only if returns are filed and premiums paid on time and there is no overdue premium debt. The discount lowers the employer cost only; it does not change the net salary.","<strong>İşveren indirimi.</strong> 5510 sayılı Kanun md. 81-ı ve geçici md. 108: 2026'da işverenin malullük, yaşlılık ve ölüm sigortası payı imalat işyerlerinde (NACE C bölümü) 5 puan, diğer özel sektör işyerlerinde 2 puan indirilir. Bildirgelerin süresinde verilmesi, primlerin süresinde ödenmesi ve vadesi geçmiş prim borcu bulunmaması şarttır. İndirim yalnızca işveren maliyetini düşürür, net ücreti değiştirmez."],
    c2h:["Salary, net to gross","Ücret, netten brüte"],
    c2s:["Solves for the gross that produces the net entered.","Girilen neti veren brütü çözer."],
    c2a:["Target net salary","Hedef net ücret"],
@@ -242,13 +246,17 @@
   }
 
   /* ---- payroll ---- */
-  function payroll(gross,cum){
+  /* 5510/81-ı indirimi: secilen puan indirimsiz isveren payindan dusulur */
+  function isvRate(ind){return Math.max(0,P("pSgkIsv")-(ind||0));}
+  function indOf(id){var e=el(id);return e?num(e.value):0;}
+  function payroll(gross,cum,ind){
     var taban=P("pTaban"), tavan=P("pTavan"), asg=P("pAsg");
     var base=gross;
     if(taban>0)base=Math.max(base,taban);
     if(tavan>0)base=Math.min(base,tavan);
     var sgk=base*P("pSgk")/100, iss=base*P("pIss")/100;
-    var sgkIsv=base*P("pSgkIsv")/100, issIsv=base*P("pIssIsv")/100;
+    var isvR=isvRate(ind);
+    var sgkIsv=base*isvR/100, issIsv=base*P("pIssIsv")/100;
     var gvm=gross-sgk-iss;
     var gv=taxOn(cum+gvm)-taxOn(cum);
     var exGv=0;
@@ -262,7 +270,7 @@
     var dmg=gross*dmgR;
     var exDmg=asg>0?Math.min(dmg,asg*dmgR):0;
     var net=gross-sgk-iss-(gv-exGv)-(dmg-exDmg);
-    return {gross:gross,base:base,sgk:sgk,iss:iss,sgkIsv:sgkIsv,issIsv:issIsv,cost:gross+sgkIsv+issIsv,gvm:gvm,gv:gv,exGv:exGv,dmg:dmg,exDmg:exDmg,net:net,newCum:cum+gvm};
+    return {gross:gross,base:base,sgk:sgk,iss:iss,isvR:isvR,sgkIsv:sgkIsv,issIsv:issIsv,cost:gross+sgkIsv+issIsv,gvm:gvm,gv:gv,exGv:exGv,dmg:dmg,exDmg:exDmg,net:net,newCum:cum+gvm};
   }
   function showPayroll(target,p){
     rows(target,[
@@ -276,7 +284,7 @@
       p.exDmg>0?{k:L("rDmgi"),v:"+"+f2(p.exDmg)}:null,
       {k:L("rNet"),v:f2(p.net),tot:1},
       {k:L("rCum"),v:f2(p.newCum)},
-      {k:L("rSgkIsv")+" ("+P("pSgkIsv")+"%)",v:f2(p.sgkIsv)},
+      {k:L("rSgkIsv")+" ("+String(Math.round(p.isvR*100)/100).replace(".",lang==="tr"?",":".")+"%)",v:f2(p.sgkIsv)},
       {k:L("rIssIsv")+" ("+P("pIssIsv")+"%)",v:f2(p.issIsv)},
       {k:L("rCost"),v:f2(p.cost),tot:1}
     ]);
@@ -288,7 +296,7 @@
     for(var i=0;i<60;i++){g=(lo+hi)/2;if(payroll(g,cum).net<want)lo=g;else hi=g;}
     return Math.round(g*100)/100;
   }
-  function yearTable(gross,cum0,boxId,targetNet){
+  function yearTable(gross,cum0,boxId,targetNet,ind){
     var box=el(boxId||"s_year"); if(!box)return;
     if(gross<=0){box.innerHTML="";return;}
     var M=lang==="tr"?["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
@@ -303,7 +311,7 @@
     }
     for(var j=0;j<12;j++){
       if(targetNet)gross=solveGross(targetNet,cum);
-      var p=payroll(gross,cum), gvNet=p.gv-p.exGv, dNet=p.dmg-p.exDmg;
+      var p=payroll(gross,cum,ind), gvNet=p.gv-p.exGv, dNet=p.dmg-p.exDmg;
       var v={g:p.gross,s:p.sgk,i:p.iss,m:p.gvm,c:p.newCum,gv:p.gv,xg:p.exGv,gvn:gvNet,d:p.dmg,xd:p.exDmg,dn:dNet,k:p.sgk+p.iss+gvNet+dNet,n:p.net,se:p.sgkIsv,ie:p.issIsv,ct:p.cost};
       h+=row(M[j],v);
       K.forEach(function(k){T[k]+=v[k];}); cum=p.newCum;
@@ -316,16 +324,17 @@
 
   function calcG2N(){
     var g=num(el("s_gross").value), c0=num(el("s_cum").value);
+    var ind=indOf("s_ind");
     if(g<=0){el("s_res").innerHTML="";yearTable(0,0);return;}
-    showPayroll("s_res",payroll(g,c0));
-    yearTable(g,c0);
+    showPayroll("s_res",payroll(g,c0,ind));
+    yearTable(g,c0,"s_year",0,ind);
   }
   function calcN2G(){
-    var want=num(el("n_net").value), cum=num(el("n_cum").value);
+    var want=num(el("n_net").value), cum=num(el("n_cum").value), ind=indOf("n_ind");
     if(want<=0){el("n_res").innerHTML="";yearTable(0,0,"n_year");return;}
-    var p=payroll(solveGross(want,cum),cum);
+    var p=payroll(solveGross(want,cum),cum,ind);
     showPayroll("n_res",p);
-    yearTable(p.gross,cum,"n_year",want);
+    yearTable(p.gross,cum,"n_year",want,ind);
   }
 
   /* ---- severance ---- */
@@ -595,7 +604,7 @@
 
   function runAll(){calcG2N();calcN2G();calcKidem();calcGec();calcDl();calcAmo();calcWc();calcCar();calcFg();calcEa();}
 
-  ["s_gross","s_cum","n_net","n_cum","k_start","k_end","k_wage","k_bonus","k_prim","k_meal","k_transport","k_other","g_due","g_pay","g_amt",
+  ["s_gross","s_cum","s_ind","n_net","n_cum","n_ind","k_start","k_end","k_wage","k_bonus","k_prim","k_meal","k_transport","k_other","g_due","g_pay","g_amt",
    "d_start","d_kind","d_hol","a_cost","a_life","a_method","a_months",
    "w_sales","w_cogs","w_ar","w_inv","w_ap","b_net","b_vat","b_acc","b_pay","fg_yk","fg_ok","fg_fg","fg_yat","fg_oran","fg_gelir","ea_end","ea_date"].concat(PIDS).forEach(function(id){
     var e=el(id);if(e)e.addEventListener("input",runAll);
@@ -622,6 +631,17 @@
       var op=document.createElement("option");op.value=i;op.textContent=o[lang==="tr"?1:0];m.appendChild(op);
     });
     if(cur)m.value=cur;
+    ["s_ind","n_ind"].forEach(function(id){
+      var s=el(id);if(!s)return;
+      var was=s.value||"0";s.innerHTML="";
+      UI.indOpts.forEach(function(o,i){
+        var pts=[0,2,5][i];
+        var op=document.createElement("option");op.value=String(pts);
+        op.textContent=o[lang==="tr"?1:0]+" ("+String(Math.round(isvRate(pts)*100)/100).replace(".",lang==="tr"?",":".")+"%)";
+        s.appendChild(op);
+      });
+      s.value=was;
+    });
   }
 
 
@@ -655,7 +675,7 @@
     lang=l;
     ["kick","h1","intro","utilLabel","parH","parD","bh1","bh2",
      "pp1","pp2","pp3","pp4","pp5","pp6","pp7","pp8","pp9","pp10","pp11",
-     "c1h","c1s","c1a","c1b","c1y","c1n","c2h","c2s","c2a","c2b","c2y","c2n",
+     "c1h","c1s","c1a","c1b","c1d","c1y","c1n","c2h","c2s","c2a","c2b","c2d","c2y","c2n",
      "c3h","c3s","c3a","c3b","c3c","c3add","c3d","c3p","c3e","c3f","c3g","c3n","c4h","c4s","c4a","c4b","c4c","c4n",
      "c5h","c5s","c5a","c5b","c5c","c5n","c6h","c6s","c6a","c6b","c6c","c6d","c6n",
      "c7h","c7s","c7a","c7b","c7c","c7d","c7e","c7n","c8h","c8s","c8a","c8b","c8c","c8d","c8j","c8n","c9h","c9s","c9a","c9b","c9c","c9d","c9e","c9f","c9j","c9n","c10h","c10s","c10a","c10b","c10t1","c10t2","c10t3","c10t4","c10r","c10j","c10n","parNote"].forEach(function(id){
@@ -665,6 +685,7 @@
     el("reset").textContent=L("reset");
     el("f1").innerHTML=L("f1");
     el("f2").innerHTML=L("f2");
+    ["s_indN","n_indN"].forEach(function(id){var e=el(id);if(e)e.innerHTML=L("indN");});
     el("btnEN").setAttribute("aria-pressed",l==="en"?"true":"false");
     el("btnTR").setAttribute("aria-pressed",l==="tr"?"true":"false");
     root.setAttribute("lang",l);
