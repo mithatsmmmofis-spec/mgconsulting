@@ -1,17 +1,17 @@
 /* Cerez onay ekrani: kabul edilmeden siteye girilmez.
-   Kabul bilgisi tarayicida "mg-ck" anahtarinda tutulur (eski bilgilendirme seridiyle ayni anahtar).
+   Kabul bilgisi tarayicida "mg-onay" anahtarinda tutulur. Eski seritteki "Tamam" (mg-ck) onay sayilmaz.
    Aydinlatma metni ve kullanim sartlari sayfalarinda bu betik yuklenmez; metinler kabulden once okunabilir. */
 (function(){
-  var KEY="mg-ck";
+  var KEY="mg-onay";
   try{ if(localStorage.getItem(KEY)==="1") return; }catch(e){}
 
   var T={
-    tr:{h:"Çerez bildirimi",
-        p:"Bu sitede reklam, izleme veya analiz çerezi kullanılmaz. Yalnızca tema ve son açılan hesaplayıcı gibi sitenin çalışması için gerekli teknik tercihler tarayıcınızda saklanır. Siteyi kullanmak için bu bildirimi kabul etmeniz gerekir.",
-        a:"Aydınlatma metni ve çerez politikası", u:"Kullanım şartları", b:"Kabul et ve devam et"},
-    en:{h:"Cookie notice",
-        p:"This site uses no advertising, tracking or analytics cookies. Only technical preferences needed for the site to work, such as the theme and the calculator you last opened, are kept in your browser. You must accept this notice to use the site.",
-        a:"Data protection notice and cookie policy", u:"Terms of use", b:"Accept and continue"}
+    tr:{h:"Çerezleri onaylıyor musunuz?",
+        p:"Bu site, çalışması için gerekli teknik çerez ve tercihleri (tema, son açılan hesaplayıcı) tarayıcınızda saklar. Reklam, izleme veya analiz çerezi kullanılmaz. Siteye girmek için çerezleri onaylamanız gerekir.",
+        a:"Aydınlatma metni ve çerez politikası", u:"Kullanım şartları", b:"Çerezleri onayla ve devam et"},
+    en:{h:"Do you accept cookies?",
+        p:"This site keeps the technical cookies and preferences it needs to work (theme, the calculator you last opened) in your browser. No advertising, tracking or analytics cookies are used. You must accept cookies to enter the site.",
+        a:"Data protection notice and cookie policy", u:"Terms of use", b:"Accept cookies and continue"}
   };
   function lang(){
     var h=(location.hash||"").replace("#","").toLowerCase();
@@ -56,7 +56,7 @@
     try{btn.focus({preventScroll:true});}catch(e){btn.focus();}
   }
   function accept(){
-    try{localStorage.setItem(KEY,"1");}catch(e){}
+    try{localStorage.setItem(KEY,"1");localStorage.setItem("mg-ck","1");}catch(e){}
     others.forEach(function(el){el.removeAttribute("inert");el.removeAttribute("aria-hidden");});
     root.style.overflow=prevOverflow;
     if(ov.parentNode)ov.parentNode.removeChild(ov);
